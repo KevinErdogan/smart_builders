@@ -16,6 +16,7 @@ public class Fridge extends AbstractComponent{
 	
 	public Fridge(String uri, String inboundPortURI) throws Exception {
 		super(uri,1,0);
+		assert	this.fridgeTemp() == 25 ;
 	}
 
 	public boolean authorize() {

@@ -14,13 +14,30 @@ public class CVM extends AbstractCVM{
 		super();
 	}
 	
-	protected String uriFridge;
 	
 	
 	public void deploy() throws Exception{
 		assert !this.deploymentDone();
 		
-		uriFridge = AbstractComponent.createComponent(Fridge.class.getCanonicalName(), new Object[] {URIFridge, URIFridgeInbountPort});
+		String uriFridge = 
+				AbstractComponent.createComponent(
+						Fridge.class.getCanonicalName(),
+						new Object[] {URIFridge, URIFridgeInbountPort});
 		assert isDeployedComponent(uriFridge);
+		toggleTracing(uriFridge);
+		
+		super.deploy();
+	}
+	
+	
+	public static void main(String[] args) {
+		try {
+			CVM cvm = new CVM() ;
+			cvm.startStandardLifeCycle(60000L) ;
+			Thread.sleep(5000L) ;
+			System.exit(0) ;
+		} catch (Exception e) {
+			throw new RuntimeException(e) ;
+		}		
 	}
 }
