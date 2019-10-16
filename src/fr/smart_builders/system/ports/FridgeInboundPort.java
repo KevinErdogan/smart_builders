@@ -26,12 +26,12 @@ public class FridgeInboundPort extends AbstractInboundPort implements FridgeI{
 	}
 
 	@Override
-	public double imediatConsumption() throws Exception {
-		return 0;
+	public double fridgeTemp() throws Exception {
+		return getOwner().handleRequestSync(owner -> ((Fridge)owner).fridgeTemp());
 	}
 
 	@Override
-	public double fridgeTemp() throws Exception {
-		return 0;
+	public double consumption() throws Exception {
+		return getOwner().handleRequestSync(owner -> ((Fridge)owner).consumption());
 	}
 }

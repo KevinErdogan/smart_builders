@@ -1,8 +1,11 @@
 package fr.smart_builders.system.components;
 
+import java.util.concurrent.TimeUnit;
+
 import fr.smart_builders.system.interfaces.FridgeI;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.annotations.OfferedInterfaces;
+import fr.sorbonne_u.components.exceptions.ComponentStartException;
 
 @OfferedInterfaces(offered= {FridgeI.class})
 public class Fridge extends AbstractComponent{
@@ -34,29 +37,45 @@ public class Fridge extends AbstractComponent{
 		return isOn=false;
 	}
 
-	public double imediatConsumption() throws Exception {
-		 if(isOn) return consumptionPerSec; else return 0;
-	}
-
 	public double fridgeTemp() throws Exception {
 		return curTemp;
 	}
 	
-	private void apply() throws Exception {
-		while(true) {
-			if(isOn) {
-				curTemp-=0.1;
-				if(curTemp<=minTemp)
-					switchOff();
-			}
-			else {
-				curTemp+=0.05;
-				if(curTemp>=maxTemp && imAuthorized)
-					switchOn();
-			}
-				
-			Thread.sleep(1000);
-		}
+	public double consumption() throws Exception{
+		 if(isOn) return consumptionPerSec; else return 0;
+	}
+
+	@Override
+	public void			start() throws ComponentStartException
+	{
+		super.start() ;
+		this.logMessage("starting consumer component.") ;
+		// Schedule the first service method invocation in one second.
+		this.scheduleTask(
+			new AbstractComponent.AbstractTask() {
+				@Override
+				public void run() {
+					try {
+						while(true) {
+							if(isOn) {
+								curTemp-=0.1;
+								if(curTemp<=minTemp)
+									switchOff();
+							}
+							else {
+								curTemp+=0.05;
+								if(curTemp>=maxTemp && imAuthorized)
+									switchOn();
+							}
+								
+							Thread.sleep(1000);
+						}
+					} catch (Exception e) {
+						throw new RuntimeException(e) ;
+					}
+				}
+			},
+			1000, TimeUnit.MILLISECONDS);
 	}
 		
 	
