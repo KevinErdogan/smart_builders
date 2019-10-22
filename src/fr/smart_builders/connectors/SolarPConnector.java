@@ -1,8 +1,8 @@
-package fr.sorbonne_u.smartgrid.connectors;
+package fr.smart_builders.connectors;
 
+import fr.smart_builders.interfaces.EnergyProviderI;
+import fr.smart_builders.interfaces.SolarPanelI;
 import fr.sorbonne_u.components.connectors.AbstractConnector;
-import fr.sorbonne_u.smartgrid.interfaces.EnergyProviderI;
-import fr.sorbonne_u.smartgrid.interfaces.SolarPanelI;
 
 public class 		SolarPConnector 
 extends 		AbstractConnector 

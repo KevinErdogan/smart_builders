@@ -1,8 +1,8 @@
-package fr.sorbonne_u.smartgrid.connectors;
+package fr.smart_builders.connectors;
 
+import fr.smart_builders.interfaces.ControlerTvI;
+import fr.smart_builders.interfaces.TvI;
 import fr.sorbonne_u.components.connectors.AbstractConnector;
-import fr.sorbonne_u.smartgrid.interfaces.ControlerTvI;
-import fr.sorbonne_u.smartgrid.interfaces.TvI;
 
 //---------------------------------------------------------------------
 

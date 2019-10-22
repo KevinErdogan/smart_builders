@@ -1,9 +1,9 @@
-package fr.sorbonne_u.smartgrid.port;
+package fr.smart_builders.port;
 
+import fr.smart_builders.component.Tv;
+import fr.smart_builders.interfaces.TvI;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.ports.AbstractInboundPort;
-import fr.sorbonne_u.smartgrid.coponenet.Tv;
-import fr.sorbonne_u.smartgrid.interfaces.TvI;
 //-------------------------------------------------------------------
 
 

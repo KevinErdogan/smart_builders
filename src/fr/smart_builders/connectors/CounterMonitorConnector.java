@@ -1,7 +1,7 @@
-package fr.sorbonne_u.smartgrid.connectors;
+package fr.smart_builders.connectors;
 
+import fr.smart_builders.interfaces.MonitorI;
 import fr.sorbonne_u.components.connectors.AbstractConnector;
-import fr.sorbonne_u.smartgrid.interfaces.MonitorI;
 
 public class 		CounterMonitorConnector 
 extends 		AbstractConnector

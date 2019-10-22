@@ -1,9 +1,9 @@
-package fr.sorbonne_u.smartgrid.port;
+package fr.smart_builders.port;
 
+import fr.smart_builders.component.Controler;
+import fr.smart_builders.interfaces.ControlerFridgeI;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.ports.AbstractOutboundPort;
-import fr.sorbonne_u.smartgrid.coponenet.Controler;
-import fr.sorbonne_u.smartgrid.interfaces.ControlerFridgeI;
 
 public class 	ControlerFridgeOutboundPort 
 extends 		AbstractOutboundPort 

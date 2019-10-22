@@ -1,11 +1,11 @@
-package fr.sorbonne_u.smartgrid.port;
+package fr.smart_builders.port;
 
+import fr.smart_builders.component.Fridge;
+import fr.smart_builders.component.SolarPanel;
+import fr.smart_builders.component.Tv;
+import fr.smart_builders.interfaces.MonitorI;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.ports.AbstractInboundPort;
-import fr.sorbonne_u.smartgrid.coponenet.Fridge;
-import fr.sorbonne_u.smartgrid.coponenet.SolarPanel;
-import fr.sorbonne_u.smartgrid.coponenet.Tv;
-import fr.sorbonne_u.smartgrid.interfaces.MonitorI;
 
 //------------------------------------------------------------------------
 

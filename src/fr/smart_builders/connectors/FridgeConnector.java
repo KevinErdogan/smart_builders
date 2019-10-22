@@ -1,8 +1,8 @@
-package fr.sorbonne_u.smartgrid.connectors;
+package fr.smart_builders.connectors;
 
+import fr.smart_builders.interfaces.ControlerFridgeI;
+import fr.smart_builders.interfaces.FridgeI;
 import fr.sorbonne_u.components.connectors.AbstractConnector;
-import fr.sorbonne_u.smartgrid.interfaces.ControlerFridgeI;
-import fr.sorbonne_u.smartgrid.interfaces.FridgeI;
 
 //---------------------------------------------------------------------
 

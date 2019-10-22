@@ -1,4 +1,4 @@
-package fr.sorbonne_u.smartgrid.interfaces;
+package fr.smart_builders.interfaces;
 
 public interface ControlerTvI extends MonitorI {
 

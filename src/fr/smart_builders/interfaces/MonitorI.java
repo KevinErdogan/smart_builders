@@ -1,4 +1,4 @@
-package fr.sorbonne_u.smartgrid.interfaces;
+package fr.smart_builders.interfaces;
 
 import fr.sorbonne_u.components.interfaces.OfferedI;
 import fr.sorbonne_u.components.interfaces.RequiredI;

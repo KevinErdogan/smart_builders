@@ -1,19 +1,19 @@
-package fr.sorbonne_u.smartgrid.coponenet;
+package fr.smart_builders.component;
 
 import java.util.concurrent.TimeUnit;
 
+import fr.smart_builders.interfaces.ControlerCounterI;
+import fr.smart_builders.interfaces.ControlerFridgeI;
+import fr.smart_builders.interfaces.ControlerTvI;
+import fr.smart_builders.interfaces.EnergyProviderI;
+import fr.smart_builders.port.ControlerCounterOutboundPort;
+import fr.smart_builders.port.ControlerEproviderOutboundPort;
+import fr.smart_builders.port.ControlerFridgeOutboundPort;
+import fr.smart_builders.port.ControlerTvOutboundPort;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
-import fr.sorbonne_u.smartgrid.interfaces.ControlerCounterI;
-import fr.sorbonne_u.smartgrid.interfaces.ControlerFridgeI;
-import fr.sorbonne_u.smartgrid.interfaces.ControlerTvI;
-import fr.sorbonne_u.smartgrid.interfaces.EnergyProviderI;
-import fr.sorbonne_u.smartgrid.port.ControlerCounterOutboundPort;
-import fr.sorbonne_u.smartgrid.port.ControlerEproviderOutboundPort;
-import fr.sorbonne_u.smartgrid.port.ControlerFridgeOutboundPort;
-import fr.sorbonne_u.smartgrid.port.ControlerTvOutboundPort;
 
 
 

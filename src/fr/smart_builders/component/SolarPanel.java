@@ -1,15 +1,15 @@
-package fr.sorbonne_u.smartgrid.coponenet;
+package fr.smart_builders.component;
 
+import fr.smart_builders.interfaces.MonitorI;
+import fr.smart_builders.interfaces.SolarPanelI;
+import fr.smart_builders.port.MonitorInboundPort;
+import fr.smart_builders.port.PanelInboundPort;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.annotations.OfferedInterfaces;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
 import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
 import fr.sorbonne_u.components.ports.PortI;
-import fr.sorbonne_u.smartgrid.interfaces.MonitorI;
-import fr.sorbonne_u.smartgrid.interfaces.SolarPanelI;
-import fr.sorbonne_u.smartgrid.port.MonitorInboundPort;
-import fr.sorbonne_u.smartgrid.port.PanelInboundPort;
 
 //--------------------------------------------------------------------
 

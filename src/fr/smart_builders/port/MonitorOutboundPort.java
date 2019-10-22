@@ -1,9 +1,9 @@
-package fr.sorbonne_u.smartgrid.port;
+package fr.smart_builders.port;
 
+import fr.smart_builders.component.Counter;
+import fr.smart_builders.interfaces.MonitorI;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.ports.AbstractOutboundPort;
-import fr.sorbonne_u.smartgrid.coponenet.Counter;
-import fr.sorbonne_u.smartgrid.interfaces.MonitorI;
 
 public class 		MonitorOutboundPort 
 extends 		AbstractOutboundPort

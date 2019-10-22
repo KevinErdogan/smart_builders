@@ -1,19 +1,18 @@
-package fr.sorbonne_u.smartgrid.cvm;
+package fr.smart_builders.cvm;
 
 
+import fr.smart_builders.component.Controler;
+import fr.smart_builders.component.Counter;
+import fr.smart_builders.component.Fridge;
+import fr.smart_builders.component.SolarPanel;
+import fr.smart_builders.component.Tv;
+import fr.smart_builders.connectors.CounterMonitorConnector;
+import fr.smart_builders.connectors.CounterServiceConnector;
+import fr.smart_builders.connectors.FridgeConnector;
+import fr.smart_builders.connectors.SolarPConnector;
+import fr.smart_builders.connectors.TvConnector;
 import fr.sorbonne_u.components.AbstractComponent;
-import fr.sorbonne_u.components.AbstractComponentHelper;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
-import fr.sorbonne_u.smartgrid.connectors.CounterMonitorConnector;
-import fr.sorbonne_u.smartgrid.connectors.CounterServiceConnector;
-import fr.sorbonne_u.smartgrid.connectors.FridgeConnector;
-import fr.sorbonne_u.smartgrid.connectors.SolarPConnector;
-import fr.sorbonne_u.smartgrid.connectors.TvConnector;
-import fr.sorbonne_u.smartgrid.coponenet.Controler;
-import fr.sorbonne_u.smartgrid.coponenet.Counter;
-import fr.sorbonne_u.smartgrid.coponenet.Fridge;
-import fr.sorbonne_u.smartgrid.coponenet.SolarPanel;
-import fr.sorbonne_u.smartgrid.coponenet.Tv;
 
 //-------------------------------------------------------------------------------------
 
