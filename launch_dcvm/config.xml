@@ -1,0 +1,31 @@
+<deployment>
+   <hosts>
+    <host name="localhost"
+          dir="/home/yacine/Documents/Master/S3/ALASCA/teste/"/>
+  </hosts>
+  <cyclicBarrier   hostname="localhost" port="55253"/>
+  <globalRegistry  hostname="localhost" port="55252"/>
+  <rmiRegistryPort no="55999"/>
+  <jvms2hostnames>
+    <jvm2hostname jvmuri="controler"
+        rmiRegistryCreator="true"
+        hostname="localhost"
+        mainclass="fr.smart_builders.cvm.DCVM"/>
+    <jvm2hostname jvmuri="counter"
+        rmiRegistryCreator="false"
+        	hostname="localhost"
+        mainclass="fr.smart_builders.cvm.DCVM"/>
+    <jvm2hostname jvmuri="fridge"
+        rmiRegistryCreator="false"
+        	hostname="localhost"
+        mainclass="fr.smart_builders.cvm.DCVM"/>
+    <jvm2hostname jvmuri="tv"
+        rmiRegistryCreator="false"
+        	hostname="localhost"
+        mainclass="fr.smart_builders.cvm.DCVM"/>
+    <jvm2hostname jvmuri="solarpanel"
+        rmiRegistryCreator="false"
+        	hostname="localhost"
+        mainclass="fr.smart_builders.cvm.DCVM"/>
+  </jvms2hostnames>
+</deployment>
