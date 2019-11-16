@@ -1,0 +1,3 @@
+you can run "small_script.sh" 
+
+or run each one of the commands il a different terminal.
