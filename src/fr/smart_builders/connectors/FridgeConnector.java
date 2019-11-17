@@ -33,4 +33,14 @@ implements 		ControlerFridgeI
 		return ((FridgeI) this.offering).switchOff();
 	}
 
+	@Override
+	public boolean ecoModeOn() throws Exception {
+		return ((FridgeI) this.offering).ecoModeOn();
+	}
+
+	@Override
+	public boolean ecoModeOff() throws Exception {
+		return ((FridgeI) this.offering).ecoModeOff();
+	}
+
 }

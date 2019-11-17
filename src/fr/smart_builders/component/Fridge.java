@@ -31,13 +31,17 @@ public class 					Fridge
 extends 		AbstractComponent
 {
 	
-	private static double RUN_CONSUMPTION = 300;
+	private static double NORMAL_MODE_RUN_CONSUMPTION = 300;
+	private static double ECO_MODE_RUN_CONSUMPTION = 180;
 	private static double STOP_CONSUMPTION = 0;
 	private static double MAX_TEMP = 7;
 	private static double MIN_TEMP = 2;
-	private static double STEP = 0.2;
+	private static double NORMAL_MODE_STEP = 0.2;
+	private static double ECO_MODE_STEP = 0.1;
 	
 	
+	private double RUN_CONSUMPTION = 300;
+	private double STEP = 0.2;
 	private double temperature;
 	private boolean isOn;
 	private boolean canRun;
@@ -94,10 +98,22 @@ extends 		AbstractComponent
 	
 	public double getConsumption () {
 		if (isOn) 
-			return Fridge.RUN_CONSUMPTION; 
+			return this.RUN_CONSUMPTION; 
 		return Fridge.STOP_CONSUMPTION;
 	}
 
+	
+	public boolean switchToEcoMode () {
+		this.STEP = ECO_MODE_STEP;
+		this.RUN_CONSUMPTION = ECO_MODE_RUN_CONSUMPTION;
+		return true;
+	}
+	
+	public boolean switchToNormalMode () {
+		this.STEP = NORMAL_MODE_STEP;
+		this.RUN_CONSUMPTION = NORMAL_MODE_RUN_CONSUMPTION;
+		return true;
+	}
 	
 	
 	

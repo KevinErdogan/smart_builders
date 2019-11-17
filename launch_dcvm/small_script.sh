@@ -21,4 +21,7 @@ sleep 0.5
 echo $p6
 p7=`./start-dcvm solarpanel` &
 echo $p7
+p8=`./start-dcvm owen` &
+sleep 0.5
+echo $p8
 sleep 0.5

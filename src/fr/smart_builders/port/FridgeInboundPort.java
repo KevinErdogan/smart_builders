@@ -58,4 +58,20 @@ implements		FridgeI
 				owner -> ((Fridge) owner).forbidStart());
 	}
 
+
+
+	@Override
+	public boolean ecoModeOn() throws Exception{
+		return this.getOwner().handleRequestSync(
+				owner -> ((Fridge) owner).switchToEcoMode());
+	}
+
+
+
+	@Override
+	public boolean ecoModeOff() throws Exception{
+		return this.getOwner().handleRequestSync(
+				owner -> ((Fridge) owner).switchToNormalMode());
+	}
+
 }

@@ -1,6 +1,7 @@
 package fr.smart_builders.port;
 
 import fr.smart_builders.component.Fridge;
+import fr.smart_builders.component.Owen;
 import fr.smart_builders.component.SolarPanel;
 import fr.smart_builders.component.Tv;
 import fr.smart_builders.interfaces.MonitorI;
@@ -38,7 +39,8 @@ implements 		MonitorI
 		assert uri != null;
 		assert (owner instanceof Fridge
 				|| owner instanceof Tv
-				|| owner instanceof SolarPanel);
+				|| owner instanceof SolarPanel)
+				|| owner instanceof Owen;
 	}
 	
 

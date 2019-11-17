@@ -4,11 +4,13 @@ package fr.smart_builders.cvm;
 import fr.smart_builders.component.Controler;
 import fr.smart_builders.component.Counter;
 import fr.smart_builders.component.Fridge;
+import fr.smart_builders.component.Owen;
 import fr.smart_builders.component.SolarPanel;
 import fr.smart_builders.component.Tv;
 import fr.smart_builders.connectors.CounterMonitorConnector;
 import fr.smart_builders.connectors.CounterServiceConnector;
 import fr.smart_builders.connectors.FridgeConnector;
+import fr.smart_builders.connectors.OwenConnector;
 import fr.smart_builders.connectors.SolarPConnector;
 import fr.smart_builders.connectors.TvConnector;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -42,6 +44,8 @@ extends 		AbstractCVM
 	
 	protected static final String COUNTER_URI 		= "counter-1";
 	
+	protected static final String OWEN_URI			= "owen-1";
+	
 	
 	/*Ports*/
 	
@@ -60,6 +64,10 @@ extends 		AbstractCVM
 	
 	protected static final String MONITORSPIBP_URI	= "monitorspibp-1";
 	
+	protected static final String OWENIBP_URI		= "owenibp-1";
+	
+	protected static final String MONITOROWENIBP_URI = "monitorowenibp-1";
+	
 	//outbound
 	
 	protected static final String FRIDGEOBP_uri 	= "fridgeobp-1";
@@ -76,6 +84,10 @@ extends 		AbstractCVM
 	
 	protected static final String CPTFSPOBP_uri 	= "countersolarpanelobp-1";
 	
+	protected static final String CPTOWENOBP_uri 	= "counterowenobp-1";
+	
+	protected static final String OWENOBP_uri 		= "owenobp-1";
+	
 	
 	
 	
@@ -85,6 +97,7 @@ extends 		AbstractCVM
 	protected String solarPanel;
 	protected String tv;
 	protected String counter;
+	protected String owen;
 	
 	
 	
@@ -151,8 +164,10 @@ extends 		AbstractCVM
 								COUNTERIBP_URI,
 								CPTFRIDOBP_uri, 
 								CPTFTVOBP_uri, 
-								CPTFSPOBP_uri
+								CPTFSPOBP_uri,
+								CPTOWENOBP_uri
 						});
+		
 		assert 	this.isDeployedComponent(this.counter);
 		
 		this.toggleTracing(this.counter);
@@ -168,7 +183,8 @@ extends 		AbstractCVM
 								SOLARPOBP_uri,
 								COUNTEROBP_uri,
 								FRIDGEOBP_uri,
-								TVOBP_uri
+								TVOBP_uri,
+								OWENOBP_uri
 								}
 						);
 		
@@ -177,6 +193,20 @@ extends 		AbstractCVM
 		this.toggleTracing(this.controler);
 		this.toggleLogging(this.controler);
 		
+		//create owen component 
+		this.owen = 
+				AbstractComponent.createComponent(
+						Owen.class.getCanonicalName(), 
+						new Object [] {
+							OWEN_URI,
+							OWENIBP_URI,
+							MONITOROWENIBP_URI
+						});
+		
+		assert this.isDeployedComponent(this.owen);
+
+		this.toggleTracing(this.owen);
+		this.toggleLogging(this.owen);
 		
 		
 		//---------------------------------------------------------------------------------------------------
@@ -198,6 +228,13 @@ extends 		AbstractCVM
 							FRIDGEIBP_URI, 
 							FridgeConnector.class.getCanonicalName());
 		
+		//Connect controler to owen
+		this.doPortConnection(
+							this.controler,
+							OWENOBP_uri,
+							OWENIBP_URI,
+							OwenConnector.class.getCanonicalName());
+		
 		//Connect controler to tv
 		this.doPortConnection(
 							this.controler, 
@@ -217,6 +254,13 @@ extends 		AbstractCVM
 							this.counter, 
 							CPTFRIDOBP_uri, 
 							MONITORFRIDGEIBP_URI, 
+							CounterMonitorConnector.class.getCanonicalName());
+		
+		//Connect counter to owen 
+		this.doPortConnection(
+							this.counter,
+							CPTOWENOBP_uri,
+							MONITOROWENIBP_URI, 
 							CounterMonitorConnector.class.getCanonicalName());
 		
 		//Connect counter to tv
@@ -247,6 +291,9 @@ extends 		AbstractCVM
 		//disconnect conroler from fridge
 		this.doPortDisconnection(this.controler, FRIDGEOBP_uri);
 		
+		//disconnect controler trom owen
+		this.doPortDisconnection(this.controler ,  OWENOBP_uri);
+		
 		//disconnect controler from tv
 		this.doPortDisconnection(this.controler, TVOBP_uri);
 		
@@ -255,6 +302,9 @@ extends 		AbstractCVM
 		
 		//disconnect counter from fridge
 		this.doPortDisconnection(this.counter, CPTFRIDOBP_uri);
+		
+		//disconnect counter from owen 
+		this.doPortDisconnection(this.counter ,  CPTOWENOBP_uri);
 		
 		//disconnect counter from tv
 		this.doPortDisconnection(this.counter, CPTFTVOBP_uri);
@@ -288,5 +338,4 @@ extends 		AbstractCVM
 		}
 	}
 	
-
 }

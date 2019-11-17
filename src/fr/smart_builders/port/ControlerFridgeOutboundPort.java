@@ -42,4 +42,14 @@ implements 		ControlerFridgeI
 		return ((ControlerFridgeI) this.connector).immediateConsumption();
 	}
 
+	@Override
+	public boolean ecoModeOn() throws Exception {
+		return ((ControlerFridgeI) this.connector).ecoModeOn();
+	}
+
+	@Override
+	public boolean ecoModeOff() throws Exception {
+		return ((ControlerFridgeI) this.connector).ecoModeOff();
+	}
+
 }

@@ -4,11 +4,13 @@ package fr.smart_builders.cvm;
 import fr.smart_builders.component.Controler;
 import fr.smart_builders.component.Counter;
 import fr.smart_builders.component.Fridge;
+import fr.smart_builders.component.Owen;
 import fr.smart_builders.component.SolarPanel;
 import fr.smart_builders.component.Tv;
 import fr.smart_builders.connectors.CounterMonitorConnector;
 import fr.smart_builders.connectors.CounterServiceConnector;
 import fr.smart_builders.connectors.FridgeConnector;
+import fr.smart_builders.connectors.OwenConnector;
 import fr.smart_builders.connectors.SolarPConnector;
 import fr.smart_builders.connectors.TvConnector;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -20,9 +22,9 @@ import fr.sorbonne_u.components.helpers.CVMDebugModes;
 
 /**
  * 
- * The class <code>CVM<code> implements the mono JVM structure.
+ * The class <code>DCVM<code> implements the multi JVM structure.
  * 
- * <p>Created on : 2019-10-21</p>
+ * <p>Created on : 2019-11-15</p>
  * 
  * @authors <p>Zaouzaou Yacine , Erdogan Kevin</p>
  *
@@ -39,6 +41,7 @@ extends 		AbstractDistributedCVM
 	protected static String FRIDGE_JVM_URI			= "fridge";
 	protected static String TV_JVM_URI				= "tv";
 	protected static String COUNTER_JVM_URI			= "counter";
+	protected static String OWEN_JVM_URI			= "owen";
 	
 	/* Components */
 	protected static final String CONTROLER_URI 	= "controler-1";
@@ -50,6 +53,8 @@ extends 		AbstractDistributedCVM
 	protected static final String TV_URI 			= "tv-1";
 	
 	protected static final String COUNTER_URI 		= "counter-1";
+	
+	protected static final String OWEN_URI			= "owen-1";
 	
 	
 	/*Ports*/
@@ -69,6 +74,10 @@ extends 		AbstractDistributedCVM
 	
 	protected static final String MONITORSPIBP_URI	= "monitorspibp-1";
 	
+	protected static final String OWENIBP_URI		= "owenibp-1";
+	
+	protected static final String MONITOROWENIBP_URI = "monitorowenibp-1";
+	
 	//outbound
 	
 	protected static final String FRIDGEOBP_uri 	= "fridgeobp-1";
@@ -85,6 +94,10 @@ extends 		AbstractDistributedCVM
 	
 	protected static final String CPTFSPOBP_uri 	= "countersolarpanelobp-1";
 	
+	protected static final String CPTOWENOBP_uri 	= "counterowenobp-1";
+	
+	protected static final String OWENOBP_uri 		= "owenobp-1";
+	
 	
 	
 	
@@ -94,6 +107,7 @@ extends 		AbstractDistributedCVM
 	protected String solarPanel;
 	protected String tv;
 	protected String counter;
+	protected String owen;
 	
 	
 	
@@ -130,7 +144,8 @@ extends 		AbstractDistributedCVM
 									SOLARPOBP_uri,
 									COUNTEROBP_uri,
 									FRIDGEOBP_uri,
-									TVOBP_uri
+									TVOBP_uri,
+									OWENOBP_uri
 									}
 							);
 			
@@ -138,7 +153,7 @@ extends 		AbstractDistributedCVM
 			
 			this.toggleTracing(this.controler);
 			this.toggleLogging(this.controler);
-			assert	this.controler != null && this.fridge == null && this.solarPanel == null && this.tv == null && this.counter == null;
+			assert	this.controler != null && this.fridge == null && this.solarPanel == null && this.tv == null && this.counter == null && this.owen == null;
 
 		} else if (thisJVMURI.equals(COUNTER_JVM_URI)) {
 			this.counter = 
@@ -149,14 +164,15 @@ extends 		AbstractDistributedCVM
 									COUNTERIBP_URI,
 									CPTFRIDOBP_uri, 
 									CPTFTVOBP_uri, 
-									CPTFSPOBP_uri
+									CPTFSPOBP_uri, 
+									CPTOWENOBP_uri
 							});
 			
 			assert 	this.isDeployedComponent(this.counter);
 			
 			this.toggleTracing(this.counter);
 			this.toggleLogging(this.counter);
-			assert	this.counter != null && this.controler == null && this.fridge == null && this.solarPanel == null && this.tv == null ;
+			assert	this.counter != null && this.controler == null && this.fridge == null && this.solarPanel == null && this.tv == null && this.owen == null ;
 
 		} else if (thisJVMURI.equals(FRIDGE_JVM_URI)) {
 			this.fridge = 
@@ -172,7 +188,7 @@ extends 		AbstractDistributedCVM
 			
 			this.toggleTracing(this.fridge);
 			this.toggleLogging(this.fridge);
-			assert	this.fridge != null && this.counter == null && this.controler == null &&  this.solarPanel == null && this.tv == null ;
+			assert	this.fridge != null && this.counter == null && this.controler == null &&  this.solarPanel == null && this.tv == null && this.owen == null ;
 		}else if (thisJVMURI.equals(TV_JVM_URI)) {
 			this.tv = 
 					AbstractComponent.createComponent(
@@ -187,7 +203,7 @@ extends 		AbstractDistributedCVM
 			this.toggleTracing(this.tv);
 			this.toggleLogging(this.tv);
 			
-			assert	this.tv != null  && this.fridge == null && this.counter == null && this.controler == null &&  this.solarPanel == null;
+			assert	this.tv != null  && this.fridge == null && this.counter == null && this.controler == null &&  this.solarPanel == null && this.owen == null;
 			
 		}else if (thisJVMURI.equals(SOLARPANEL_JVM_URI)) {
 			this.solarPanel = 
@@ -202,7 +218,23 @@ extends 		AbstractDistributedCVM
 			
 			this.toggleTracing(this.solarPanel);
 			this.toggleLogging(this.solarPanel);
-			assert	this.solarPanel != null && this.tv == null  && this.fridge == null && this.counter == null && this.controler == null;
+			assert	this.solarPanel != null && this.tv == null  && this.fridge == null && this.counter == null && this.controler == null && this.owen == null;
+			
+			
+		}else if (thisJVMURI.equals(OWEN_JVM_URI)) {
+			this.owen = 
+					AbstractComponent.createComponent(
+							Owen.class.getCanonicalName()
+							, new Object [] {
+									OWEN_URI,
+									OWENIBP_URI,
+									MONITOROWENIBP_URI									
+							});
+			assert this.isDeployedComponent(this.owen);
+			
+			this.toggleTracing(this.owen);
+			this.toggleLogging(this.owen);
+			assert this.owen != null && this.solarPanel == null && this.tv == null  && this.fridge == null && this.counter == null && this.controler == null;
 			
 			
 		}else {
@@ -223,7 +255,7 @@ extends 		AbstractDistributedCVM
 
 		if (thisJVMURI.equals(CONTROLER_JVM_URI)) {
 
-			assert	this.controler != null && this.fridge == null && this.solarPanel == null && this.tv == null && this.counter == null;
+			assert	this.controler != null && this.fridge == null && this.solarPanel == null && this.tv == null && this.counter == null && this.owen == null;
 			//Connect controler to solar panel
 			this.doPortConnection(
 								this.controler, 
@@ -252,10 +284,17 @@ extends 		AbstractDistributedCVM
 								COUNTERIBP_URI, 
 								CounterServiceConnector.class.getCanonicalName());
 			
+			//Connect controler to owen
+			this.doPortConnection(
+								this.controler,
+								OWENOBP_uri,
+								OWENIBP_URI,
+								OwenConnector.class.getCanonicalName());
+			
 
 		}else if (thisJVMURI.equals(COUNTER_JVM_URI)) {
 			
-			assert	this.counter != null && this.controler == null && this.fridge == null && this.solarPanel == null && this.tv == null;
+			assert	this.counter != null && this.controler == null && this.fridge == null && this.solarPanel == null && this.tv == null && this.owen == null;
 			
 			//Connect counter to fridge
 			this.doPortConnection(
@@ -278,20 +317,29 @@ extends 		AbstractDistributedCVM
 								MONITORSPIBP_URI, 
 								CounterMonitorConnector.class.getCanonicalName());	
 			
+			//Connect counter to owen 
+			this.doPortConnection(
+								this.counter,
+								CPTOWENOBP_uri,
+								MONITOROWENIBP_URI, 
+								CounterMonitorConnector.class.getCanonicalName());
+			
 			
 		}else if (thisJVMURI.equals(FRIDGE_JVM_URI)) {
 			
-			assert	this.fridge != null && this.counter == null && this.controler == null && this.solarPanel == null && this.tv == null;
+			assert	this.fridge != null && this.counter == null && this.controler == null && this.solarPanel == null && this.tv == null && this.owen == null;
 			
 			
 		}else if (thisJVMURI.equals(TV_JVM_URI)) {
 			
-			assert	this.tv != null && this.fridge == null && this.counter == null && this.controler == null && this.solarPanel == null;
+			assert	this.tv != null && this.fridge == null && this.counter == null && this.controler == null && this.solarPanel == null && this.owen == null;
 			
 		} else if (thisJVMURI.equals(SOLARPANEL_JVM_URI)) {
 
-			assert	this.solarPanel != null && this.tv == null && this.fridge == null && this.counter == null && this.controler == null;
+			assert	this.solarPanel != null && this.tv == null && this.fridge == null && this.counter == null && this.controler == null && this.owen == null;
 
+		} else if (thisJVMURI.equals(OWEN_JVM_URI)) {
+			assert	 this.owen != null && this.solarPanel == null && this.tv == null && this.fridge == null && this.counter == null && this.controler == null;
 		} else {
 
 			System.out.println("Unknown JVM URI... " + thisJVMURI) ;
@@ -310,7 +358,7 @@ extends 		AbstractDistributedCVM
 		
 		if (thisJVMURI.equals(CONTROLER_JVM_URI)) {
 
-			assert	this.controler != null && this.fridge == null && this.solarPanel == null && this.tv == null && this.counter == null;
+			assert	this.controler != null && this.fridge == null && this.solarPanel == null && this.tv == null && this.counter == null && this.owen == null;
 			
 			
 			//disconnect controler from panel solar
@@ -325,10 +373,13 @@ extends 		AbstractDistributedCVM
 			//disconnect crontroler from counter
 			this.doPortDisconnection(this.controler, COUNTEROBP_uri);
 			
+			//disconnect controler trom owen
+			this.doPortDisconnection(this.controler ,  OWENOBP_uri);
+			
 
 		}else if (thisJVMURI.equals(COUNTER_JVM_URI)) {
 			
-			assert	this.counter != null && this.controler == null && this.fridge == null && this.solarPanel == null && this.tv == null;
+			assert	this.counter != null && this.controler == null && this.fridge == null && this.solarPanel == null && this.tv == null && this.owen == null;
 
 			
 			//disconnect counter from fridge
@@ -340,20 +391,27 @@ extends 		AbstractDistributedCVM
 			//disconnect counter from solar panel
 			this.doPortDisconnection(this.counter, CPTFSPOBP_uri);
 			
+			//disconnect counter from owen 
+			this.doPortDisconnection(this.counter ,  CPTOWENOBP_uri);
+			
 			
 		}else if (thisJVMURI.equals(FRIDGE_JVM_URI)) {
 			
-			assert	this.fridge != null && this.counter == null && this.controler == null && this.solarPanel == null && this.tv == null;
+			assert	this.fridge != null && this.counter == null && this.controler == null && this.solarPanel == null && this.tv == null && this.owen == null;
 			
 			
 		}else if (thisJVMURI.equals(TV_JVM_URI)) {
 			
-			assert	this.tv != null && this.fridge == null && this.counter == null && this.controler == null && this.solarPanel == null;
+			assert	this.tv != null && this.fridge == null && this.counter == null && this.controler == null && this.solarPanel == null && this.owen == null;
 			
 		} else if (thisJVMURI.equals(SOLARPANEL_JVM_URI)) {
 
-			assert	this.solarPanel != null && this.tv == null && this.fridge == null && this.counter == null && this.controler == null;
+			assert	this.solarPanel != null && this.tv == null && this.fridge == null && this.counter == null && this.controler == null && this.owen == null;
 
+		} else if (thisJVMURI.equals(OWEN_JVM_URI)) {
+			
+			assert	this.owen != null && this.solarPanel == null && this.tv == null && this.fridge == null && this.counter == null && this.controler == null;
+			
 		} else {
 
 			System.out.println("Unknown JVM URI... " + thisJVMURI) ;
@@ -370,27 +428,31 @@ extends 		AbstractDistributedCVM
 	{
 		if (thisJVMURI.equals(CONTROLER_JVM_URI)) {
 
-			assert	this.controler != null && this.fridge == null && this.solarPanel == null && this.tv == null && this.counter == null;
+			assert	this.controler != null && this.fridge == null && this.solarPanel == null && this.tv == null && this.counter == null && this.owen == null;
 
 
 		}else if (thisJVMURI.equals(COUNTER_JVM_URI)) {
 			
-			assert	this.counter != null && this.controler == null && this.fridge == null && this.solarPanel == null && this.tv == null;
+			assert	this.counter != null && this.controler == null && this.fridge == null && this.solarPanel == null && this.tv == null && this.owen == null;
 			
 			
 		}else if (thisJVMURI.equals(FRIDGE_JVM_URI)) {
 			
-			assert	this.fridge != null && this.counter == null && this.controler == null && this.solarPanel == null && this.tv == null;
+			assert	this.fridge != null && this.counter == null && this.controler == null && this.solarPanel == null && this.tv == null && this.owen == null;
 			
 			
 		}else if (thisJVMURI.equals(TV_JVM_URI)) {
 			
-			assert	this.tv != null && this.fridge == null && this.counter == null && this.controler == null && this.solarPanel == null;
+			assert	this.tv != null && this.fridge == null && this.counter == null && this.controler == null && this.solarPanel == null && this.owen == null;
 			
 		} else if (thisJVMURI.equals(SOLARPANEL_JVM_URI)) {
 
-			assert	this.solarPanel != null && this.tv == null && this.fridge == null && this.counter == null && this.controler == null;
+			assert	this.solarPanel != null && this.tv == null && this.fridge == null && this.counter == null && this.controler == null && this.owen == null;
 
+		} else if (thisJVMURI.equals(OWEN_JVM_URI)) {
+			
+			assert	this.owen != null && this.solarPanel == null && this.tv == null && this.fridge == null && this.counter == null && this.controler == null;
+			
 		} else {
 
 			System.out.println("Unknown JVM URI... " + thisJVMURI) ;

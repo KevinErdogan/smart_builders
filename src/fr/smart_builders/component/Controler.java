@@ -4,11 +4,13 @@ import java.util.concurrent.TimeUnit;
 
 import fr.smart_builders.interfaces.ControlerCounterI;
 import fr.smart_builders.interfaces.ControlerFridgeI;
+import fr.smart_builders.interfaces.ControlerOwenI;
 import fr.smart_builders.interfaces.ControlerTvI;
 import fr.smart_builders.interfaces.EnergyProviderI;
 import fr.smart_builders.port.ControlerCounterOutboundPort;
 import fr.smart_builders.port.ControlerEproviderOutboundPort;
 import fr.smart_builders.port.ControlerFridgeOutboundPort;
+import fr.smart_builders.port.ControlerOwenOutboundPort;
 import fr.smart_builders.port.ControlerTvOutboundPort;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
@@ -20,7 +22,8 @@ import fr.sorbonne_u.components.exceptions.ComponentStartException;
 @RequiredInterfaces ( required = {EnergyProviderI.class , 
 									ControlerTvI.class, 
 									ControlerFridgeI.class,
-									ControlerCounterI.class
+									ControlerCounterI.class, 
+									ControlerOwenI.class
 									})
 public class 			Controler 
 extends 		AbstractComponent 
@@ -30,6 +33,7 @@ extends 		AbstractComponent
 	protected 	ControlerCounterOutboundPort	counter;
 	protected 	ControlerFridgeOutboundPort		fridge;
 	protected 	ControlerTvOutboundPort			tv;
+	protected 	ControlerOwenOutboundPort		owen;
 	
 	
 	
@@ -38,7 +42,8 @@ extends 		AbstractComponent
 			String solarpanel, 
 			String counter, 
 			String fridge, 
-			String tv
+			String tv, 
+			String owen
 			) throws Exception
 	{
 		super (uri , 0 , 1);
@@ -69,6 +74,13 @@ extends 		AbstractComponent
 		this.fridge.localPublishPort();
 		
 		assert	this.fridge.isPublished();
+		
+		this.owen = new ControlerOwenOutboundPort(
+							owen, 
+							this);
+		this.owen.localPublishPort();
+		
+		assert this.owen.isPublished();
 		
 		
 		
@@ -151,6 +163,7 @@ extends 		AbstractComponent
 		this.fridge.unpublishPort();
 		this.tv.unpublishPort();
 		this.counter.unpublishPort();
+		this.owen.unpublishPort();
 		
 		super.finalise();
 		

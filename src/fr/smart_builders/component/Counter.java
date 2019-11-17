@@ -34,6 +34,7 @@ extends			AbstractComponent
 	protected MonitorOutboundPort 			fridgeobp;
 	protected MonitorOutboundPort 			tvobp;
 	protected MonitorOutboundPort 			solarpobp;
+	protected MonitorOutboundPort 			owenobp;
 	
 	
 	
@@ -48,7 +49,8 @@ extends			AbstractComponent
 				String inboundport, 
 				String fridgeoutboundport,
 				String tvoutboundport, 
-				String spoutboundport
+				String spoutboundport, 
+				String owenoutboundport
 			) throws Exception
 	{
 		super (uri , 0 , 1);
@@ -67,7 +69,13 @@ extends			AbstractComponent
 		
 		assert 	this.fridgeobp.isPublished();
 		
+		this.owenobp = new MonitorOutboundPort(
+					owenoutboundport, 
+					this);
 		
+		this.owenobp.localPublishPort();
+		
+		assert this.owenobp.isPublished();
 		
 		
 		this.tvobp = new MonitorOutboundPort(
@@ -108,6 +116,7 @@ extends			AbstractComponent
 		double sum = 0;
 		sum += this.fridgeobp.immediateConsumption();
 		sum += this.tvobp.immediateConsumption();
+		sum += this.owenobp.immediateConsumption();
 		this.total = sum;
 	}
 	
@@ -160,6 +169,7 @@ extends			AbstractComponent
 		this.fridgeobp.unpublishPort();
 		this.tvobp.unpublishPort();
 		this.solarpobp.unpublishPort();
+		this.owenobp.unpublishPort();
 		
 		super.finalise();
 	}

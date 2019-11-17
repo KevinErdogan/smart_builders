@@ -14,4 +14,7 @@ extends MonitorI,
 		SwitcherI
 {
 
+	public boolean ecoModeOn ()		throws Exception;
+	public boolean ecoModeOff ()	throws Exception;
+	
 }
