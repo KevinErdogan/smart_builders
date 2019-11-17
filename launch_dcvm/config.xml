@@ -31,5 +31,9 @@
         rmiRegistryCreator="false"
         	hostname="localhost"
         mainclass="fr.smart_builders.cvm.DCVM"/>
+    <jvm2hostname jvmuri="battery"
+        rmiRegistryCreator="false"
+        	hostname="localhost"
+        mainclass="fr.smart_builders.cvm.DCVM"/>
   </jvms2hostnames>
 </deployment>

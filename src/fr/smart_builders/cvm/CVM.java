@@ -1,12 +1,14 @@
 package fr.smart_builders.cvm;
 
 
+import fr.smart_builders.component.Battery;
 import fr.smart_builders.component.Controler;
 import fr.smart_builders.component.Counter;
 import fr.smart_builders.component.Fridge;
 import fr.smart_builders.component.Owen;
 import fr.smart_builders.component.SolarPanel;
 import fr.smart_builders.component.Tv;
+import fr.smart_builders.connectors.BatteryConnector;
 import fr.smart_builders.connectors.CounterMonitorConnector;
 import fr.smart_builders.connectors.CounterServiceConnector;
 import fr.smart_builders.connectors.FridgeConnector;
@@ -46,6 +48,8 @@ extends 		AbstractCVM
 	
 	protected static final String OWEN_URI			= "owen-1";
 	
+	protected static final String BATTERY_URI		= "battery-1";
+	
 	
 	/*Ports*/
 	
@@ -68,6 +72,10 @@ extends 		AbstractCVM
 	
 	protected static final String MONITOROWENIBP_URI = "monitorowenibp-1";
 	
+	protected static final String BATTERYIBP_URI 	= "batteryibp-1";
+	
+	protected static final String MONITORBATIBP_URI = "monitorbatteryibp-1";
+	
 	//outbound
 	
 	protected static final String FRIDGEOBP_uri 	= "fridgeobp-1";
@@ -88,6 +96,10 @@ extends 		AbstractCVM
 	
 	protected static final String OWENOBP_uri 		= "owenobp-1";
 	
+	protected static final String BATTERYOBP_uri	= "batteryobp-1";
+	
+	protected static final String CPTBATOBP_uri 	= "counterbattery-1";
+	
 	
 	
 	
@@ -98,6 +110,7 @@ extends 		AbstractCVM
 	protected String tv;
 	protected String counter;
 	protected String owen;
+	protected String battery;
 	
 	
 	
@@ -125,6 +138,21 @@ extends 		AbstractCVM
 		
 		this.toggleTracing(this.fridge);
 		this.toggleLogging(this.fridge);
+		
+		//create battery
+		this.battery = 
+				AbstractComponent.createComponent(
+						Battery.class.getCanonicalName(),
+						new Object [] {
+								BATTERY_URI,
+								BATTERYIBP_URI,
+								MONITORBATIBP_URI
+						});
+	
+		assert this.isDeployedComponent(this.battery);
+		
+		this.toggleTracing(this.battery);
+		this.toggleLogging(this.battery);
 		
 		
 		//create smart tv component
@@ -165,7 +193,8 @@ extends 		AbstractCVM
 								CPTFRIDOBP_uri, 
 								CPTFTVOBP_uri, 
 								CPTFSPOBP_uri,
-								CPTOWENOBP_uri
+								CPTOWENOBP_uri, 
+								CPTBATOBP_uri
 						});
 		
 		assert 	this.isDeployedComponent(this.counter);
@@ -184,7 +213,8 @@ extends 		AbstractCVM
 								COUNTEROBP_uri,
 								FRIDGEOBP_uri,
 								TVOBP_uri,
-								OWENOBP_uri
+								OWENOBP_uri, 
+								BATTERYOBP_uri
 								}
 						);
 		
@@ -235,6 +265,13 @@ extends 		AbstractCVM
 							OWENIBP_URI,
 							OwenConnector.class.getCanonicalName());
 		
+		//Connect controler to battery
+		this.doPortConnection(
+							this.controler, 
+							BATTERYOBP_uri, 
+							BATTERYIBP_URI, 
+							BatteryConnector.class.getCanonicalName());
+		
 		//Connect controler to tv
 		this.doPortConnection(
 							this.controler, 
@@ -270,6 +307,13 @@ extends 		AbstractCVM
 							MONITORTVIBP_URI, 
 							CounterMonitorConnector.class.getCanonicalName());
 		
+		//Connect counter to battery
+		this.doPortConnection(
+							this.counter, 
+							CPTBATOBP_uri, 
+							MONITORBATIBP_URI, 
+							CounterMonitorConnector.class.getCanonicalName());
+		
 		//Connect counter to solar panel
 		this.doPortConnection(
 							this.counter, 
@@ -300,6 +344,9 @@ extends 		AbstractCVM
 		//disconnect crontroler from counter
 		this.doPortDisconnection(this.controler, COUNTEROBP_uri);
 		
+		//diconnect controler from battery
+		this.doPortDisconnection(this.controler, BATTERYOBP_uri);
+		
 		//disconnect counter from fridge
 		this.doPortDisconnection(this.counter, CPTFRIDOBP_uri);
 		
@@ -311,6 +358,9 @@ extends 		AbstractCVM
 		
 		//disconnect counter from solar panel
 		this.doPortDisconnection(this.counter, CPTFSPOBP_uri);
+		
+		//disconnect counter from battery
+		this.doPortDisconnection(this.counter, CPTBATOBP_uri);
 		
 		super.finalise();
 	}

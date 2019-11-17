@@ -35,7 +35,7 @@ extends			AbstractComponent
 	protected MonitorOutboundPort 			tvobp;
 	protected MonitorOutboundPort 			solarpobp;
 	protected MonitorOutboundPort 			owenobp;
-	
+	protected MonitorOutboundPort			batteryobp;
 	
 	
 	protected double 				total;
@@ -50,7 +50,8 @@ extends			AbstractComponent
 				String fridgeoutboundport,
 				String tvoutboundport, 
 				String spoutboundport, 
-				String owenoutboundport
+				String owenoutboundport,
+				String batteryoutboundport
 			) throws Exception
 	{
 		super (uri , 0 , 1);
@@ -95,6 +96,16 @@ extends			AbstractComponent
 		assert 	this.solarpobp.isPublished();
 		
 		
+		this.batteryobp = new MonitorOutboundPort(
+					batteryoutboundport, 
+					this);
+		
+		this.batteryobp.localPublishPort();
+		
+		assert this.batteryobp.isPublished();
+		
+		
+		
 		if (AbstractCVM.isDistributed) {
 			this.executionLog.setDirectory(System.getProperty("user.dir")) ;
 		} else {
@@ -117,6 +128,7 @@ extends			AbstractComponent
 		sum += this.fridgeobp.immediateConsumption();
 		sum += this.tvobp.immediateConsumption();
 		sum += this.owenobp.immediateConsumption();
+		sum += this.batteryobp.immediateConsumption();
 		this.total = sum;
 	}
 	
@@ -170,6 +182,7 @@ extends			AbstractComponent
 		this.tvobp.unpublishPort();
 		this.solarpobp.unpublishPort();
 		this.owenobp.unpublishPort();
+		this.batteryobp.unpublishPort();
 		
 		super.finalise();
 	}

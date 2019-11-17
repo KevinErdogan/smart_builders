@@ -2,11 +2,13 @@ package fr.smart_builders.component;
 
 import java.util.concurrent.TimeUnit;
 
+import fr.smart_builders.interfaces.ControlerBatteryI;
 import fr.smart_builders.interfaces.ControlerCounterI;
 import fr.smart_builders.interfaces.ControlerFridgeI;
 import fr.smart_builders.interfaces.ControlerOwenI;
 import fr.smart_builders.interfaces.ControlerTvI;
 import fr.smart_builders.interfaces.EnergyProviderI;
+import fr.smart_builders.port.ControlerBatteryOutboundPort;
 import fr.smart_builders.port.ControlerCounterOutboundPort;
 import fr.smart_builders.port.ControlerEproviderOutboundPort;
 import fr.smart_builders.port.ControlerFridgeOutboundPort;
@@ -23,7 +25,8 @@ import fr.sorbonne_u.components.exceptions.ComponentStartException;
 									ControlerTvI.class, 
 									ControlerFridgeI.class,
 									ControlerCounterI.class, 
-									ControlerOwenI.class
+									ControlerOwenI.class, 
+									ControlerBatteryI.class
 									})
 public class 			Controler 
 extends 		AbstractComponent 
@@ -34,6 +37,7 @@ extends 		AbstractComponent
 	protected 	ControlerFridgeOutboundPort		fridge;
 	protected 	ControlerTvOutboundPort			tv;
 	protected 	ControlerOwenOutboundPort		owen;
+	protected 	ControlerBatteryOutboundPort	battery;
 	
 	
 	
@@ -43,7 +47,8 @@ extends 		AbstractComponent
 			String counter, 
 			String fridge, 
 			String tv, 
-			String owen
+			String owen, 
+			String battery
 			) throws Exception
 	{
 		super (uri , 0 , 1);
@@ -92,6 +97,13 @@ extends 		AbstractComponent
 		
 		assert	this.tv.isPublished();
 		
+		this.battery = new ControlerBatteryOutboundPort(
+							battery, 
+							this);
+		
+		this.battery.localPublishPort();
+		
+		assert this.battery.isPublished();
 		
 		
 		if (AbstractCVM.isDistributed) {
@@ -116,6 +128,11 @@ extends 		AbstractComponent
 		
 		if (generated > consumed) {
 			this.fridge.switchOn();
+		}
+		
+		double ecart = generated - consumed;
+		if (ecart > 0) {
+			this.battery.charge(ecart);
 		}
 		
 		this.scheduleTask (
@@ -164,6 +181,7 @@ extends 		AbstractComponent
 		this.tv.unpublishPort();
 		this.counter.unpublishPort();
 		this.owen.unpublishPort();
+		this.battery.unpublishPort();
 		
 		super.finalise();
 		
