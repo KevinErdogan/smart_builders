@@ -128,6 +128,7 @@ extends			AbstractComponent
 		sum += this.fridgeobp.immediateConsumption();
 		sum += this.tvobp.immediateConsumption();
 		sum += this.owenobp.immediateConsumption();
+		this.logMessage("consumtion of owen "+owenobp.immediateConsumption());
 		sum += this.batteryobp.immediateConsumption();
 		this.total = sum;
 	}

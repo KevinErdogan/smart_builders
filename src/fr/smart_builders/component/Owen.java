@@ -3,7 +3,6 @@ package fr.smart_builders.component;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import fr.smart_builders.interfaces.FridgeI;
 import fr.smart_builders.interfaces.MonitorI;
 import fr.smart_builders.interfaces.OwenI;
 import fr.smart_builders.port.MonitorInboundPort;
@@ -106,8 +105,12 @@ extends 				AbstractComponent
 	}
 
 	public double getConsumption () {
-		if (isOn)
+		if (isOn) {
+			this.logMessage("_________________________________");
 			return this.run_consumption;
+			
+		}
+		this.logMessage("yyyyyyyyyyyyyyyyyyyyyyyy");
 		return Owen.STOP_CONSUMPTION;
 	}
 
@@ -135,14 +138,17 @@ extends 				AbstractComponent
 		if (canStart) {
 			if (time_to_start ()) {
 				this.switchOn();
+				this.starttime = null;
 			}
 		}
 		
 		String state = (isOn)?"on":"off";
 		String temp = (isOn)?(""+this.temperature):("0");
 		String consumption = (isOn)?(""+this.maximum_consuption):"0";
+		String startScheduled = (this.starttime != null)?"mustrun at "+this.starttime.getTime():"no start scheduled";
 		this.logMessage("i'm "+state+"\nmy temperature "+temp+"\nmyconsumption "
-						+consumption+"\n");
+						+consumption+"\n"+startScheduled+"\n");
+		
 		this.scheduleTask (
 				new AbstractComponent.AbstractTask () {
 					@Override

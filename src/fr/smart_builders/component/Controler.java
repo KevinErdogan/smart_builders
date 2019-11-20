@@ -1,5 +1,6 @@
 package fr.smart_builders.component;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import fr.smart_builders.interfaces.ControlerBatteryI;
@@ -126,8 +127,16 @@ extends 		AbstractComponent
 		double consumed = this.counter.immediateConsumption();
 		this.logMessage("consumed : "+consumed+"\n");
 		
+		
 		if (generated > consumed) {
 			this.fridge.switchOn();
+		} else {
+			boolean from_battery = this.battery.give(consumed - generated);
+			if (from_battery) {
+				this.logMessage("getting energy from battery");
+			}else {
+				this.logMessage("ERROR SOMTHING MUST STOP ... SOLUTION TO FOUND LATER");
+			}
 		}
 		
 		double ecart = generated - consumed;
@@ -155,6 +164,9 @@ extends 		AbstractComponent
 	{
 		this.logMessage("start conroler");
 		super.start();
+		Calendar cible = Calendar.getInstance();
+		cible.set(Calendar.MINUTE , cible.get(Calendar.MINUTE));
+		try {this.owen.setStartTime(cible);}catch (Exception e) {throw new ComponentStartException();}      // not logic at all but we will fix it after
 		this.scheduleTask (
 				new AbstractComponent.AbstractTask () {
 					@Override

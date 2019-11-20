@@ -52,6 +52,10 @@ implements 		MonitorI
 			return consumptionFridge ();
 		}else if (this.owner instanceof Tv) {
 			return consumptionTv ();
+		}else if (this.owner instanceof Battery) {
+			return consumptionBattery();
+		}else if (this.owner instanceof Owen) {
+			return consumptionOwen ();
 		}
 		return 0;
 	}
@@ -59,6 +63,16 @@ implements 		MonitorI
 	private double consumptionFridge () throws Exception{
 		return this.getOwner().handleRequestSync(
 				owner -> ((Fridge) owner).getConsumption());
+	}
+	
+	private double consumptionBattery () throws Exception{
+		return this.getOwner().handleRequestSync(
+				owner -> ((Battery) owner).consumption());
+	}
+	
+	private double consumptionOwen () throws Exception{
+		return this.getOwner().handleRequestSync(
+				owner -> ((Owen) owner).getConsumption());
 	}
 	
 	private double consumptionTv () throws Exception {

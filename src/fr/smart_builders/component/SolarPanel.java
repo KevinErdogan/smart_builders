@@ -1,5 +1,7 @@
 package fr.smart_builders.component;
 
+import java.util.concurrent.TimeUnit;
+
 import fr.smart_builders.interfaces.MonitorI;
 import fr.smart_builders.interfaces.SolarPanelI;
 import fr.smart_builders.port.MonitorInboundPort;
@@ -27,6 +29,8 @@ public class 			SolarPanel
 extends 		AbstractComponent 
 {
 	
+	private int stepper_to_remove = 0; 			// used to simulate a stop of production after 80 seconsds
+	
 	private double energyproduced = 1000;
 	
 	
@@ -36,7 +40,7 @@ extends 		AbstractComponent
 				String minboudport
 			)throws Exception
 	{
-		super (uri , 0 , 1);
+		super (uri , 0 , 2);
 		
 		
 		//create ports 
@@ -71,8 +75,30 @@ extends 		AbstractComponent
 	
 	// get a function that computes the value of the production
 	public double energy () {
-		this.logMessage("I produced "+this.energyproduced+" now !");
+		
 		return energyproduced;
+	}
+	
+	private void lifeCycle () {
+		
+		this.logMessage("I produced "+this.energyproduced+" now !");
+		this.stepper_to_remove ++;
+		if (this.stepper_to_remove > 80) {
+			this.energyproduced = 0;
+		}
+		
+		this.scheduleTask (
+				new AbstractComponent.AbstractTask () {
+					@Override
+					public void run () {
+						try {
+							((SolarPanel) this.getTaskOwner()).lifeCycle();
+						}catch (Exception e) {
+							throw new RuntimeException ();
+						}
+					}
+				}, 
+				1000 , TimeUnit.MILLISECONDS);
 	}
 	
 	
@@ -81,6 +107,19 @@ extends 		AbstractComponent
 	{
 		this.logMessage("starting solar panel");
 		super.start();
+		this.scheduleTask (
+				new AbstractComponent.AbstractTask () {
+					@Override
+					public void run () {
+						try {
+							((SolarPanel) this.getTaskOwner()).lifeCycle();
+						}catch (Exception e) {
+							throw new RuntimeException ();
+						}
+					}
+				}, 
+				1000 , TimeUnit.MILLISECONDS);
+
 	}
 	
 	@Override
