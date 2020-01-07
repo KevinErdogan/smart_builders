@@ -1,0 +1,71 @@
+1574255319259|Registry up and running!
+1574255488901|GlobalRegistry processing put controler-1 rmi=localhost
+1574255489339|GlobalRegistry processing put tv-1 rmi=localhost
+1574255489344|GlobalRegistry processing put counter-1 rmi=localhost
+1574255489356|GlobalRegistry processing put fridge-1 rmi=localhost
+1574255489370|All connected!
+1574255489374|GlobalRegistry processing put owen-1 rmi=localhost
+1574255489374|GlobalRegistry processing put battery-1 rmi=localhost
+1574255489508|GlobalRegistry processing put batteryibp-1 rmi=localhost
+1574255489531|GlobalRegistry processing put counteribp-1 rmi=localhost
+1574255489539|GlobalRegistry processing put fridgeibp-1 rmi=localhost
+1574255489540|GlobalRegistry processing put tvibp-1 rmi=localhost
+1574255489562|GlobalRegistry processing put owenibp-1 rmi=localhost
+1574255489562|GlobalRegistry processing put solarpibp-1 rmi=localhost
+1574255489600|GlobalRegistry processing put monitorbatteryibp-1 rmi=localhost
+1574255489637|GlobalRegistry processing put monitorfridgeibp-1 rmi=localhost
+1574255489657|GlobalRegistry processing put monitorowenibp-1 rmi=localhost
+1574255489684|GlobalRegistry processing put monitortvibp-1 rmi=localhost
+1574255489716|GlobalRegistry processing put monitorspibp-1 rmi=localhost
+1574255491206|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-949b8011-ca9a-440d-a430-d93ed8d19e49 rmi=localhost
+1574255491242|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-03b93fd2-3f80-4a4e-a76e-f09cf18a44bc rmi=localhost
+1574255491250|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-8295d983-464d-432c-874d-98e071d8fe13 rmi=localhost
+1574255491318|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-e9d98362-2f17-4f6a-9055-3c22735fd4e7 rmi=localhost
+1574255491342|GlobalRegistry processing put battery-dcc rmi=localhost
+1574255491366|GlobalRegistry processing put solarpanel-dcc rmi=localhost
+1574255491384|GlobalRegistry processing put controler-dcc rmi=localhost
+1574255491454|GlobalRegistry processing put counter-dcc rmi=localhost
+1574255491486|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-fe513f74-9a63-4773-8c6f-dfc5c4d45bbd rmi=localhost
+1574255491502|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-896c48bd-2fd1-47ab-a247-0ad840ce3917 rmi=localhost
+1574255491602|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-62408667-7557-49aa-8aed-426f90874f0c rmi=localhost
+1574255491694|GlobalRegistry processing put tv-dcc rmi=localhost
+1574255491738|GlobalRegistry processing put fridge-dcc rmi=localhost
+1574255491802|GlobalRegistry processing put owen-dcc rmi=localhost
+1574255491850|GlobalRegistry processing lookup monitorfridgeibp-1
+1574255491858|GlobalRegistry processing lookup solarpibp-1
+1574255491982|GlobalRegistry processing lookup fridgeibp-1
+1574255492062|GlobalRegistry processing lookup tvibp-1
+1574255492166|GlobalRegistry processing lookup counteribp-1
+1574255492230|GlobalRegistry processing lookup monitortvibp-1
+1574255492286|GlobalRegistry processing lookup owenibp-1
+1574255492314|GlobalRegistry processing lookup monitorspibp-1
+1574255492378|GlobalRegistry processing lookup batteryibp-1
+1574255492414|GlobalRegistry processing lookup monitorbatteryibp-1
+1574255492534|GlobalRegistry processing lookup monitorowenibp-1
+1574255692825|GlobalRegistry processing remove solar_panel-1
+1574255692834|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-8295d983-464d-432c-874d-98e071d8fe13
+1574255692850|GlobalRegistry processing remove fridge-1
+1574255692850|GlobalRegistry processing remove battery-1
+1574255692866|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-fe513f74-9a63-4773-8c6f-dfc5c4d45bbd
+1574255692871|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-e9d98362-2f17-4f6a-9055-3c22735fd4e7
+1574255692871|GlobalRegistry processing remove tv-1
+1574255692872|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-03b93fd2-3f80-4a4e-a76e-f09cf18a44bc
+1574255692890|GlobalRegistry processing remove controler-1
+1574255692894|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-62408667-7557-49aa-8aed-426f90874f0c
+1574255692898|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-949b8011-ca9a-440d-a430-d93ed8d19e49
+1574255692922|GlobalRegistry processing remove counter-1
+1574255693058|GlobalRegistry processing remove fridgeibp-1
+1574255693062|GlobalRegistry processing remove tvibp-1
+1574255693063|GlobalRegistry processing remove solarpibp-1
+1574255693066|GlobalRegistry processing remove batteryibp-1
+1574255693066|GlobalRegistry processing remove counter-dcc
+1574255693106|GlobalRegistry processing remove monitortvibp-1
+1574255693114|GlobalRegistry processing remove counteribp-1
+1574255693194|GlobalRegistry processing remove solarpanel-dcc
+1574255693194|GlobalRegistry processing remove tv-dcc
+1574255693202|GlobalRegistry processing remove battery-dcc
+1574255693354|GlobalRegistry processing shutdown
+1574255693354|GlobalRegistry processing shutdown
+1574255693358|GlobalRegistry processing shutdown
+1574255693358|GlobalRegistry processing shutdown
+1574255693364|Global registry shuts down!

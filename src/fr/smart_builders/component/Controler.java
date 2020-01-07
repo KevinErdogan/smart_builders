@@ -6,14 +6,14 @@ import java.util.concurrent.TimeUnit;
 import fr.smart_builders.interfaces.ControlerBatteryI;
 import fr.smart_builders.interfaces.ControlerCounterI;
 import fr.smart_builders.interfaces.ControlerFridgeI;
-import fr.smart_builders.interfaces.ControlerOwenI;
+import fr.smart_builders.interfaces.ControlerOvenI;
 import fr.smart_builders.interfaces.ControlerTvI;
 import fr.smart_builders.interfaces.EnergyProviderI;
 import fr.smart_builders.port.ControlerBatteryOutboundPort;
 import fr.smart_builders.port.ControlerCounterOutboundPort;
 import fr.smart_builders.port.ControlerEproviderOutboundPort;
 import fr.smart_builders.port.ControlerFridgeOutboundPort;
-import fr.smart_builders.port.ControlerOwenOutboundPort;
+import fr.smart_builders.port.ControlerOvenOutboundPort;
 import fr.smart_builders.port.ControlerTvOutboundPort;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
@@ -26,7 +26,7 @@ import fr.sorbonne_u.components.exceptions.ComponentStartException;
 									ControlerTvI.class, 
 									ControlerFridgeI.class,
 									ControlerCounterI.class, 
-									ControlerOwenI.class, 
+									ControlerOvenI.class, 
 									ControlerBatteryI.class
 									})
 public class 			Controler 
@@ -37,7 +37,7 @@ extends 		AbstractComponent
 	protected 	ControlerCounterOutboundPort	counter;
 	protected 	ControlerFridgeOutboundPort		fridge;
 	protected 	ControlerTvOutboundPort			tv;
-	protected 	ControlerOwenOutboundPort		owen;
+	protected 	ControlerOvenOutboundPort		oven;
 	protected 	ControlerBatteryOutboundPort	battery;
 	
 	
@@ -48,7 +48,7 @@ extends 		AbstractComponent
 			String counter, 
 			String fridge, 
 			String tv, 
-			String owen, 
+			String oven, 
 			String battery
 			) throws Exception
 	{
@@ -81,12 +81,12 @@ extends 		AbstractComponent
 		
 		assert	this.fridge.isPublished();
 		
-		this.owen = new ControlerOwenOutboundPort(
-							owen, 
+		this.oven = new ControlerOvenOutboundPort(
+							oven, 
 							this);
-		this.owen.localPublishPort();
+		this.oven.localPublishPort();
 		
-		assert this.owen.isPublished();
+		assert this.oven.isPublished();
 		
 		
 		
@@ -118,6 +118,12 @@ extends 		AbstractComponent
 		
 	}
 	
+	/** TO DEL : JUST TO TESTE OVEN AFTER A WHILE	 */
+	
+	private int start = 0;
+	
+	/** TO DEL : END*/
+	
 	
 	protected void 			life_cycle () throws Exception 
 	{
@@ -127,6 +133,14 @@ extends 		AbstractComponent
 		double consumed = this.counter.immediateConsumption();
 		this.logMessage("consumed : "+consumed+"\n");
 		
+		// not logic at all but we will fix it after
+		if (start == 20) {
+			Calendar cible = Calendar.getInstance();
+			cible.set(Calendar.MINUTE , cible.get(Calendar.MINUTE));
+			try {this.oven.setStartTime(cible);}catch (Exception e) {throw new ComponentStartException();}      
+		}else if (start < 20) {
+			start ++;
+		}
 		
 		if (generated > consumed) {
 			this.fridge.switchOn();
@@ -164,9 +178,6 @@ extends 		AbstractComponent
 	{
 		this.logMessage("start conroler");
 		super.start();
-		Calendar cible = Calendar.getInstance();
-		cible.set(Calendar.MINUTE , cible.get(Calendar.MINUTE));
-		try {this.owen.setStartTime(cible);}catch (Exception e) {throw new ComponentStartException();}      // not logic at all but we will fix it after
 		this.scheduleTask (
 				new AbstractComponent.AbstractTask () {
 					@Override
@@ -192,7 +203,7 @@ extends 		AbstractComponent
 		this.fridge.unpublishPort();
 		this.tv.unpublishPort();
 		this.counter.unpublishPort();
-		this.owen.unpublishPort();
+		this.oven.unpublishPort();
 		this.battery.unpublishPort();
 		
 		super.finalise();

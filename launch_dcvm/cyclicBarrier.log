@@ -1,0 +1,126 @@
+1574255332477|DCVM Cyclic Barrier up and running!
+1574255399452|DCVM Cyclic Barrier accepts: controler localhost 58158
+1574255399455|DCVM Cyclic Barrier has received 1 out of 7 expected.
+1574255412212|DCVM Cyclic Barrier accepts: counter localhost 58222
+1574255412213|DCVM Cyclic Barrier has received 2 out of 7 expected.
+1574255440575|DCVM Cyclic Barrier accepts: fridge localhost 58254
+1574255440576|DCVM Cyclic Barrier has received 3 out of 7 expected.
+1574255451068|DCVM Cyclic Barrier accepts: owen localhost 58260
+1574255451069|DCVM Cyclic Barrier has received 4 out of 7 expected.
+1574255462090|DCVM Cyclic Barrier accepts: solarpanel localhost 58262
+1574255462090|DCVM Cyclic Barrier has received 5 out of 7 expected.
+1574255474015|DCVM Cyclic Barrier accepts: battery localhost 58264
+1574255474016|DCVM Cyclic Barrier has received 6 out of 7 expected.
+1574255487497|All connected!
+1574255487498|DCVM Cyclic Barrier accepts: tv localhost 58266
+1574255487500|DCVM Cyclic Barrier has received 7 out of 7 expected.
+1574255487500|DCVM Cyclic Barrier releases 7 sites.
+1574255487509|DCVM Cyclic Barrier accepts: controler localhost 58158
+1574255487510|DCVM Cyclic Barrier has received 1 out of 7 expected.
+1574255487605|DCVM Cyclic Barrier accepts: fridge localhost 58254
+1574255487605|DCVM Cyclic Barrier has received 2 out of 7 expected.
+1574255487633|DCVM Cyclic Barrier accepts: battery localhost 58264
+1574255487634|DCVM Cyclic Barrier has received 3 out of 7 expected.
+1574255487636|DCVM Cyclic Barrier accepts: owen localhost 58260
+1574255487637|DCVM Cyclic Barrier has received 4 out of 7 expected.
+1574255487648|DCVM Cyclic Barrier accepts: solarpanel localhost 58262
+1574255487649|DCVM Cyclic Barrier has received 5 out of 7 expected.
+1574255487666|DCVM Cyclic Barrier accepts: counter localhost 58222
+1574255487667|DCVM Cyclic Barrier has received 6 out of 7 expected.
+1574255487738|DCVM Cyclic Barrier accepts: tv localhost 58266
+1574255487738|DCVM Cyclic Barrier has received 7 out of 7 expected.
+1574255487738|DCVM Cyclic Barrier releases 7 sites.
+1574255491345|DCVM Cyclic Barrier accepts: battery localhost 58264
+1574255491346|DCVM Cyclic Barrier has received 1 out of 7 expected.
+1574255491407|DCVM Cyclic Barrier accepts: solarpanel localhost 58262
+1574255491408|DCVM Cyclic Barrier has received 2 out of 7 expected.
+1574255491423|DCVM Cyclic Barrier accepts: controler localhost 58158
+1574255491424|DCVM Cyclic Barrier has received 3 out of 7 expected.
+1574255491466|DCVM Cyclic Barrier accepts: counter localhost 58222
+1574255491466|DCVM Cyclic Barrier has received 4 out of 7 expected.
+1574255491739|DCVM Cyclic Barrier accepts: fridge localhost 58254
+1574255491740|DCVM Cyclic Barrier has received 5 out of 7 expected.
+1574255491746|DCVM Cyclic Barrier accepts: tv localhost 58266
+1574255491746|DCVM Cyclic Barrier has received 6 out of 7 expected.
+1574255491806|DCVM Cyclic Barrier accepts: owen localhost 58260
+1574255491807|DCVM Cyclic Barrier has received 7 out of 7 expected.
+1574255491807|DCVM Cyclic Barrier releases 7 sites.
+1574255491808|DCVM Cyclic Barrier accepts: battery localhost 58264
+1574255491809|DCVM Cyclic Barrier has received 1 out of 7 expected.
+1574255491809|DCVM Cyclic Barrier accepts: tv localhost 58266
+1574255491809|DCVM Cyclic Barrier has received 2 out of 7 expected.
+1574255491815|DCVM Cyclic Barrier accepts: fridge localhost 58254
+1574255491816|DCVM Cyclic Barrier has received 3 out of 7 expected.
+1574255491833|DCVM Cyclic Barrier accepts: solarpanel localhost 58262
+1574255491834|DCVM Cyclic Barrier has received 4 out of 7 expected.
+1574255491862|DCVM Cyclic Barrier accepts: owen localhost 58260
+1574255491862|DCVM Cyclic Barrier has received 5 out of 7 expected.
+1574255492430|DCVM Cyclic Barrier accepts: controler localhost 58158
+1574255492431|DCVM Cyclic Barrier has received 6 out of 7 expected.
+1574255492590|DCVM Cyclic Barrier accepts: counter localhost 58222
+1574255492590|DCVM Cyclic Barrier has received 7 out of 7 expected.
+1574255492590|DCVM Cyclic Barrier releases 7 sites.
+1574255492629|DCVM Cyclic Barrier accepts: controler localhost 58158
+1574255492630|DCVM Cyclic Barrier has received 1 out of 7 expected.
+1574255492666|DCVM Cyclic Barrier accepts: solarpanel localhost 58262
+1574255492666|DCVM Cyclic Barrier has received 2 out of 7 expected.
+1574255492674|DCVM Cyclic Barrier accepts: fridge localhost 58254
+1574255492675|DCVM Cyclic Barrier has received 3 out of 7 expected.
+1574255492681|DCVM Cyclic Barrier accepts: tv localhost 58266
+1574255492682|DCVM Cyclic Barrier has received 4 out of 7 expected.
+1574255492686|DCVM Cyclic Barrier accepts: owen localhost 58260
+1574255492686|DCVM Cyclic Barrier accepts: battery localhost 58264
+1574255492686|DCVM Cyclic Barrier accepts: counter localhost 58222
+1574255492690|DCVM Cyclic Barrier has received 5 out of 7 expected.
+1574255492690|DCVM Cyclic Barrier has received 6 out of 7 expected.
+1574255492691|DCVM Cyclic Barrier has received 7 out of 7 expected.
+1574255492691|DCVM Cyclic Barrier releases 7 sites.
+1574255692742|DCVM Cyclic Barrier accepts: controler localhost 58158
+1574255692745|DCVM Cyclic Barrier has received 1 out of 7 expected.
+1574255692778|DCVM Cyclic Barrier accepts: owen localhost 58260
+1574255692778|DCVM Cyclic Barrier has received 2 out of 7 expected.
+1574255692782|DCVM Cyclic Barrier accepts: fridge localhost 58254
+1574255692782|DCVM Cyclic Barrier accepts: counter localhost 58222
+1574255692782|DCVM Cyclic Barrier accepts: tv localhost 58266
+1574255692782|DCVM Cyclic Barrier has received 3 out of 7 expected.
+1574255692783|DCVM Cyclic Barrier has received 4 out of 7 expected.
+1574255692784|DCVM Cyclic Barrier has received 5 out of 7 expected.
+1574255692784|DCVM Cyclic Barrier has received 6 out of 7 expected.
+1574255692790|DCVM Cyclic Barrier accepts: solarpanel localhost 58262
+1574255692790|DCVM Cyclic Barrier has received 7 out of 7 expected.
+1574255692790|DCVM Cyclic Barrier releases 7 sites.
+1574255692934|DCVM Cyclic Barrier accepts: controler localhost 58158
+1574255692935|DCVM Cyclic Barrier has received 1 out of 7 expected.
+1574255692958|DCVM Cyclic Barrier accepts: solarpanel localhost 58262
+1574255692958|DCVM Cyclic Barrier has received 2 out of 7 expected.
+1574255692982|DCVM Cyclic Barrier accepts: fridge localhost 58254
+1574255692982|DCVM Cyclic Barrier has received 3 out of 7 expected.
+1574255692986|DCVM Cyclic Barrier accepts: battery localhost 58264
+1574255692986|DCVM Cyclic Barrier has received 4 out of 7 expected.
+1574255693010|DCVM Cyclic Barrier accepts: owen localhost 58260
+1574255693010|DCVM Cyclic Barrier has received 5 out of 7 expected.
+1574255693014|DCVM Cyclic Barrier accepts: tv localhost 58266
+1574255693014|DCVM Cyclic Barrier has received 6 out of 7 expected.
+1574255693015|DCVM Cyclic Barrier has received 7 out of 7 expected.
+1574255693015|DCVM Cyclic Barrier releases 7 sites.
+1574255693064|DCVM Cyclic Barrier accepts: controler localhost 58158
+1574255693065|DCVM Cyclic Barrier has received 1 out of 7 expected.
+1574255693202|DCVM Cyclic Barrier accepts: counter localhost 58222
+1574255693205|DCVM Cyclic Barrier has received 2 out of 7 expected.
+1574255693239|DCVM Cyclic Barrier accepts: solarpanel localhost 58262
+1574255693252|DCVM Cyclic Barrier has received 3 out of 7 expected.
+1574255693290|DCVM Cyclic Barrier accepts: tv localhost 58266
+1574255693292|DCVM Cyclic Barrier has received 4 out of 7 expected.
+1574255693293|DCVM Cyclic Barrier has received 5 out of 7 expected.
+1574255693302|DCVM Cyclic Barrier accepts: owen localhost 58260
+1574255693303|DCVM Cyclic Barrier has received 6 out of 7 expected.
+1574255693310|DCVM Cyclic Barrier accepts: battery localhost 58264
+1574255693311|DCVM Cyclic Barrier has received 7 out of 7 expected.
+1574255693311|DCVM Cyclic Barrier releases 7 sites.
+1574255693315|DCVMCyclicBarrier.run() finished.
+1574255693316|DCVMCyclicBarrier.run() finished.
+1574255693316|DCVMCyclicBarrier.run() finished.
+1574255693316|DCVMCyclicBarrier.run() finished.
+1574255693317|DCVMCyclicBarrier.run() finished.
+1574255693317|DCVMCyclicBarrier.run() finished.
+1574255693317|DCVM Cyclic Barrier shuts down!

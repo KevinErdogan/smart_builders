@@ -47,8 +47,6 @@ extends 		AbstractComponent
 	private boolean canRun;
 	
 	
-	
-	
 
 	protected Fridge				(
 			String uri, 
@@ -82,11 +80,9 @@ extends 		AbstractComponent
 	}
 	
 	
-	
-	
-	
 	public boolean forbidStart () {
 		this.canRun = false;
+		this.isOn = false;
 		return ! this.canRun;
 	}
 	

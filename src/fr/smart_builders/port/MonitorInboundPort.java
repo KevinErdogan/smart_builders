@@ -2,7 +2,7 @@ package fr.smart_builders.port;
 
 import fr.smart_builders.component.Battery;
 import fr.smart_builders.component.Fridge;
-import fr.smart_builders.component.Owen;
+import fr.smart_builders.component.Oven;
 import fr.smart_builders.component.SolarPanel;
 import fr.smart_builders.component.Tv;
 import fr.smart_builders.interfaces.MonitorI;
@@ -42,7 +42,7 @@ implements 		MonitorI
 				|| owner instanceof Tv
 				|| owner instanceof SolarPanel
 				|| owner instanceof Battery
-				|| owner instanceof Owen);
+				|| owner instanceof Oven);
 	}
 	
 
@@ -54,7 +54,7 @@ implements 		MonitorI
 			return consumptionTv ();
 		}else if (this.owner instanceof Battery) {
 			return consumptionBattery();
-		}else if (this.owner instanceof Owen) {
+		}else if (this.owner instanceof Oven) {
 			return consumptionOwen ();
 		}
 		return 0;
@@ -72,7 +72,7 @@ implements 		MonitorI
 	
 	private double consumptionOwen () throws Exception{
 		return this.getOwner().handleRequestSync(
-				owner -> ((Owen) owner).getConsumption());
+				owner -> ((Oven) owner).getConsumption());
 	}
 	
 	private double consumptionTv () throws Exception {
