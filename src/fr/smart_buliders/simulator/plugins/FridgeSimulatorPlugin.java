@@ -1,7 +1,7 @@
 package fr.smart_buliders.simulator.plugins;
 
+import fr.smart_builders.simulator.models.FridgeModel;
 import fr.sorbonne_u.components.cyphy.plugins.devs.AtomicSimulatorPlugin;
-import fr.sorbonne_u.cyphy.examples.sg.equipments.hairdryer.models.HairDryerModel;
 import fr.sorbonne_u.devs_simulation.interfaces.ModelDescriptionI;
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -28,21 +28,16 @@ extends 			AtomicSimulatorPlugin
 	public Object		getModelStateValue(String modelURI, String name)
 	throws Exception
 	{
-		// Get a Java reference on the object representing the corresponding
-		// simulation model.
+
 		ModelDescriptionI m = this.simulator.getDescendentModel(modelURI) ;
-		// The only model in this example that provides access to some value
-		// is the HairDryerModel.
-//		assert	m instanceof FridgeModel ;
-		// The following is the implementation of the protocol converting
-		// names used by the caller to the values provided by the model;
-		// alternatively, the simulation model could take care of the
-		// link between names and values.
+	
+		assert	m instanceof FridgeModel ;
+		
 		if (name.equals("state")) {
-			return ((HairDryerModel)m).getState() ;
+			return ((FridgeModel)m).getState() ;
 		} else {
 			assert	name.equals("intensity") ;
-			return ((HairDryerModel)m).getIntensity() ;
+			return ((FridgeModel)m).getConsumption() ;
 		}
 	}
 
