@@ -2,7 +2,10 @@ package fr.smart_builders.simulator.models;
 
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
+
 import fr.smart_builders.simulator.models.events.AbstractFridgeEvent;
+import fr.smart_builders.simulator.models.events.CloseDoorFridge;
+import fr.smart_builders.simulator.models.events.OpenDoorFridge;
 import fr.smart_builders.simulator.models.events.RunFridge;
 import fr.smart_builders.simulator.models.events.StopFridge;
 import fr.smart_builders.simulator.models.events.SwitchEcoFridge;
@@ -26,8 +29,12 @@ import fr.sorbonne_u.utils.XYPlotter;
 
 /**
  * 
+ * The class <code>FridgeModel</code> implements a simple fridge
+ * component (model) which holds the state consumption values for 
+ * simulation purpose (equivalent to the fridge component) !
+ * 
  * this class has been created following the examples of 
- * BCM-CyPhy-Components for HairDryer model
+ * BCM-CyPhy-Components for HairDryer model 
  * 
  * @authors <p> Yacine Zaouzaou , Kevin Erdogan </p>
  *
@@ -38,7 +45,9 @@ import fr.sorbonne_u.utils.XYPlotter;
 							StopFridge.class,
 							SwitchEcoFridge.class,
 							SwitchNormalFridge.class,
-							SwitchOffFridge.class})
+							SwitchOffFridge.class, 
+							OpenDoorFridge.class, 
+							CloseDoorFridge.class})
 public class 		FridgeModel 
 extends 			AtomicHIOAwithEquations
 {
@@ -64,7 +73,7 @@ extends 			AtomicHIOAwithEquations
 	
 	/**
 	 * The enumeration <code>State</code> describes the state of the 
-	 * fridge weather it's running or not 
+	 * fridge whether it's running or not 
 	 * it depends on the inner temperature of the fridge
 	 */
 	public static enum State {
@@ -74,6 +83,16 @@ extends 			AtomicHIOAwithEquations
 		 					the inner temperature is high */
 	}
 	
+
+	/**
+	 * The enumeration <code>DoorState</code> describes the state of the 
+	 * door of the fridge whether it is open of closed
+	 */
+	public static enum DoorState {
+		OPEN, 			/* The fridge's door is open	*/
+		CLOSE, 			/*  The fridge's door is closed */
+	
+	}
 	
 	/**
 	 * 	The class <code>FridgeReport</code> implements the 
@@ -131,6 +150,19 @@ extends 			AtomicHIOAwithEquations
 						400) ;
 		this.powerPlotter = new XYPlotter (pd) ; 
 		this.powerPlotter.createSeries (SERIES) ;
+		
+		PlotterDescription pd2 = 
+				new PlotterDescription (
+						"Fridge temperature", 
+						"Time (sec)" ,
+						"Temperature (°C)", 
+						100, 
+						400, 
+						600, 
+						400
+						) ;
+		this.temperaturePlotter = new XYPlotter(pd2) ;
+		this.temperaturePlotter.createSeries(TEMP_SERIES) ;
 	}
 
 	
@@ -148,6 +180,8 @@ extends 			AtomicHIOAwithEquations
 	public static final String 				URI = "FridgeModel-1" ;
 	
 	private static final String 			SERIES = "power" ;
+	
+	private static final String 			TEMP_SERIES = "temperature" ;
 	
 	//	energy consumption ( electric power ) using normal mode ( full power ) 
 	//  unit : watt
@@ -170,6 +204,8 @@ extends 			AtomicHIOAwithEquations
 	//	the unit used is °C
 	protected static final double 			MIN_INNER_TEMP = 4 ; 
 	
+	private static final double 			STARTING_TEMP_VALUE = 22 ; 
+	
 	
 	//	current power consumption in watt
 	@ExportedVariable (type= Double.class)
@@ -182,11 +218,19 @@ extends 			AtomicHIOAwithEquations
 	//	current state either RUN or STOP of the fridge
 	protected State 				currentState ; 
 	
-	//  Inner temperature in °C
-	//  it is exported just for monitoring
+	/*  Inner temperature in °C 
+	*  	it is exported just for monitoring */
 	@ExportedVariable (type = Double.class)
-	protected final Value <Double> temperature = 
-								new Value <Double> (this , 2.0 , 0);
+	protected final Value <Double> fridgeInnerTemp = 
+								new Value <Double> (this , 
+												FridgeModel.STARTING_TEMP_VALUE, 0);
+	
+	
+	// this value must be accessible from FridgeInnerTempEvo
+	/* current state of the fridge's door  */
+//	@ExportedVariable (type = FridgeModel.DoorState.class)
+	protected final Value <FridgeModel.DoorState> doorState = 
+								new Value<> (this, FridgeModel.DoorState.CLOSE , 0);
 
 	
 	
@@ -212,9 +256,11 @@ extends 			AtomicHIOAwithEquations
 		this.currentMode = Mode.NORMAL ; 
 		
 		
-		// initialization of the plotter
+		// initialization of plotters
 		this.powerPlotter.initialise() ;
 		this.powerPlotter.showPlotter() ;
+		this.temperaturePlotter.initialise() ;
+		this.temperaturePlotter.showPlotter() ;
 		
 		try {
 			this.setDebugLevel(1);
@@ -229,7 +275,6 @@ extends 			AtomicHIOAwithEquations
 	public void 					initialiseVariables (Time startTime)
 	{
 		this.currentPower.v = 0.0 ; 
-		
 		
 	}
 	
@@ -248,14 +293,18 @@ extends 			AtomicHIOAwithEquations
 		
 		
 		// what to return ? 
-		return null ; 
+		return Duration.INFINITY ; 
 	}
 	
 	
+	// maybe changed if we take consideration of the outer
+	// temperature ( weather )
 	@Override
 	public void 					userDefinedInternalTransition 
 					(Duration elapsedTime)
 	{
+		System.err.println("run internal transition for fridgeModel");
+		
 		// TODO need to understand to do it
 		// i think here we have to put all inner behaviors 
 		// of the fridge
@@ -265,14 +314,14 @@ extends 			AtomicHIOAwithEquations
 		// its inner temperature. in this case 
 		// it would be done in External Transition ? 
 		
-		// JUST A TRY -- need to confirme that with the teacher
+		this.temperaturePlotter.addData (
+						TEMP_SERIES , 
+						this.getCurrentStateTime().getSimulatedTime() ,
+						this.getTemperature()
+				);
 		
-		Duration d ; 
-		if (this.computedEvent.equals(RunFridge.class)) {
-			
-		}else if (this.computedEvent.equals (StopFridge.class)) {
-			
-		}
+		computeInnerTempEvolution () ;
+
 	}
 	
 	@Override
@@ -284,7 +333,6 @@ extends 			AtomicHIOAwithEquations
 		}
 		
 		Vector<EventI> currentEvents = this.getStoredEventAndReset() ;
-		
 		
 		// there is only one event at time 
 		assert currentEvents != null && currentEvents.size() == 1 ; 
@@ -320,6 +368,7 @@ extends 			AtomicHIOAwithEquations
 				this.getCurrentStateTime().getSimulatedTime(), 
 				this.getConsumption());
 		
+		
 		super.userDefinedExternalTransition(elapsedTime);
 		
 		if (this.hasDebugLevel(2)) {
@@ -335,8 +384,11 @@ extends 			AtomicHIOAwithEquations
 				SERIES, 
 				endTime.getSimulatedTime(), 
 				this.getConsumption()) ;
-		Thread.sleep(10000L);
+		Thread.sleep(100000L);
 		this.powerPlotter.dispose() ;
+		
+		//end the temperature plotter
+		this.temperaturePlotter.dispose() ;
 		
 		super.endSimulation(endTime);
 	}
@@ -352,7 +404,7 @@ extends 			AtomicHIOAwithEquations
 	//-----------------------------------------------------------------------
 	
 	
-	private void 		computePower () 
+	private void 						computePower () 
 	{
 		Mode m = this.getMode();
 		State s = this.getState();
@@ -367,38 +419,86 @@ extends 			AtomicHIOAwithEquations
 		}
 	}
 	
-	public void			setMode (Mode s) 
+	private void 						computeInnerTempEvolution () 
+	{
+		System.err.println("innertemp evolution");
+		
+		State runState = this.getState() ; 
+		Mode modeState = this.getMode() ; 
+		DoorState doorState = this.getDoorState() ; 
+		
+		// fait de façon naive
+		// il y a un peu de redondance (duplication)  !
+		// values are all arbitrary -- must do more research 
+		// door open
+		if (doorState == DoorState.OPEN) {
+			if (modeState == Mode.OFF || runState == State.STOP) {
+				this.fridgeInnerTemp.v = this.fridgeInnerTemp.v + 0.15 ;
+			}
+			else if (modeState == Mode.ECO) {
+				this.fridgeInnerTemp.v = this.fridgeInnerTemp.v - 0.02 ;
+			}
+			else if (modeState == Mode.NORMAL) {
+				this.fridgeInnerTemp.v = this.fridgeInnerTemp.v - 0.06 ;
+			}
+		}
+		// door closed
+		else if (doorState  == DoorState.CLOSE) {
+			if (modeState == Mode.OFF || runState == State.STOP) {
+				this.fridgeInnerTemp.v = this.fridgeInnerTemp.v + 0.05 ;
+			}
+			else if (modeState == Mode.ECO) {
+				this.fridgeInnerTemp.v = this.fridgeInnerTemp.v - 0.8 ;
+			}
+			else if (modeState == Mode.NORMAL) {
+				this.fridgeInnerTemp.v = this.fridgeInnerTemp.v - 0.18 ;
+			}
+		}
+	}
+	
+	public void							setMode (Mode s) 
 	{
 		this.currentMode = s ; 
 		this.computePower ();
 	}
 	
-	public void 		setState (State s) 
+	public void 						setState (State s) 
 	{
 		this.currentState = s;
 		this.computePower ();
 	}
 	
 	
-	public Mode 		getMode () 
+	public Mode 						getMode () 
 	{
 		return this.currentMode ; 
 	}
 	
-	public State 		getState () 
+	public State 						getState () 
 	{
 		return this.currentState ;
 	}
 
 	
-	public double 		getConsumption () 
+	public double 						getConsumption () 
 	{
 		return this.currentPower.v ;
 	}
 	
-	public double 		getTemperature () 
+	public double 						getTemperature () 
 	{
-		return this.temperature.v ; 
+		return this.fridgeInnerTemp.v ; 
+	}
+	
+	public FridgeModel.DoorState 		getDoorState () 
+	{
+		return this.doorState.v ;
 	}
 
+	public void 						setDoorValue (
+											FridgeModel.DoorState s) 
+	{
+		this.doorState.v = s;
+	}
+	
 }
