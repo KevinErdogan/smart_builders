@@ -50,7 +50,7 @@ extends 								AtomicES_Model
 	/** delay between two days -- in the night no opening !*/
 	protected double 						openDuration ; 
 	
-	/** delay between two opening of the day in one day */
+	/** delay between two opening of the door in one day */
 	protected double 						meanTimeBetweenOpen ; 
 	
 	protected double 						interDayDelay ;
@@ -105,7 +105,7 @@ extends 								AtomicES_Model
 		this.counterNumberOfOpening = 0 ; 
 		this.meanTimeBetweenOpen = 140.0 ; 
 		this.openDuration = 45.0 ; 
-		this.interDayDelay = 700.0 ; 
+		this.interDayDelay = 1400.0 ; 
 		
 		this.gennopd () ; 
 		
@@ -113,11 +113,13 @@ extends 								AtomicES_Model
 		
 		super.initialiseState(initialTime) ;
 		
+		
+		// schedule first event
 		Duration d1 = new Duration (
 							this.initialDelay, 
 							this.getSimulatedTimeUnit() ) ;
 		Time t = this.getCurrentStateTime().add(d1) ; 
-		System.err.println("scheduling open at " + t.getSimulatedTime()) ;
+//		System.err.println("scheduling open at " + t.getSimulatedTime()) ;
 		this.scheduleEvent(new OpenDoorFridge(t)) ;
 		
 		this.nextTimeAdvance = this.timeAdvance() ; 
@@ -203,6 +205,9 @@ extends 								AtomicES_Model
 		this.numberOfOpningPerDay = (new SecureRandom()).nextInt (10) ; 
 		this.numberOfOpningPerDay += 10 ; 
 	}
+	
+	
+	// i think their is the report function missing !!
 	
 }
 

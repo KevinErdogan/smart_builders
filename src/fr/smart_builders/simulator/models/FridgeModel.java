@@ -30,7 +30,7 @@ import fr.sorbonne_u.utils.XYPlotter;
 /**
  * 
  * The class <code>FridgeModel</code> implements a simple fridge
- * component (model) which holds the state consumption values for 
+ * component (model) which holds the state and consumption values for 
  * simulation purpose (equivalent to the fridge component) !
  * 
  * this class has been created following the examples of 
@@ -39,6 +39,10 @@ import fr.sorbonne_u.utils.XYPlotter;
  * @authors <p> Yacine Zaouzaou , Kevin Erdogan </p>
  *
  */
+
+//	il faut mettre une ref au composant frigo ici 
+// 	et tout ce qui est comportement interne du frigo consiste en 
+//	un appelle vers les composant
 
 @ModelExternalEvents (imported = {
 							RunFridge.class, 
@@ -183,42 +187,42 @@ extends 			AtomicHIOAwithEquations
 	
 	private static final String 			TEMP_SERIES = "temperature" ;
 	
-	//	energy consumption ( electric power ) using normal mode ( full power ) 
-	//  unit : watt
+	/**	energy consumption ( electric power ) using normal mode ( full power ) 
+	    unit : watt */
 	protected static final double 			NORMAL_MODE_CONSUMPTION = 200;
 	
-	//	energy consumption ( electric power ) using eco mode
-	//  unit : watt
+	/**	energy consumption ( electric power ) using eco mode
+	    unit : watt */
 	protected static final double 			ECO_MODE_CONSUMPTION = 150;
 	
 	
-	//	top threshold for inner temperature in the fridge
-	//	when inner temperature goes above this value
-	//	the fridge tries to run if it it is allowed to 
-	//	the unit used is °C
+	/**	top threshold for inner temperature in the fridge
+	  	when inner temperature goes above this value
+	  	the fridge tries to run if it it is allowed to 
+	  	the unit used is °C */
 	protected static final double 			MAX_INNER_TEMP = 6 ;
 	
-	//	bottom threshold for inner temperature in the fridge
-	//	when inner temperature goes under this value
-	//	the fridge stops running
-	//	the unit used is °C
+	/**	bottom threshold for inner temperature in the fridge
+	  	when inner temperature goes under this value
+	  	the fridge stops running
+	  	the unit used is °C */
 	protected static final double 			MIN_INNER_TEMP = 4 ; 
 	
 	private static final double 			STARTING_TEMP_VALUE = 22 ; 
 	
 	
-	//	current power consumption in watt
+	/**	current power consumption in watt */
 	@ExportedVariable (type= Double.class)
 	protected final Value <Double> 	currentPower = 
 								new Value<Double> (this , 0.0 , 0);
 	
-	//	current mode either OFF or ECO or NORMAL of the fridge
+	/**	current mode either OFF or ECO or NORMAL of the fridge */
 	protected Mode 					currentMode ; 
 	
-	//	current state either RUN or STOP of the fridge
+	/**	current state either RUN or STOP of the fridge */
 	protected State 				currentState ; 
 	
-	/*  Inner temperature in °C 
+	/**  Inner temperature in °C 
 	*  	it is exported just for monitoring */
 	@ExportedVariable (type = Double.class)
 	protected final Value <Double> fridgeInnerTemp = 
@@ -227,8 +231,7 @@ extends 			AtomicHIOAwithEquations
 	
 	
 	// this value must be accessible from FridgeInnerTempEvo
-	/* current state of the fridge's door  */
-//	@ExportedVariable (type = FridgeModel.DoorState.class)
+	/** current state of the fridge's door  */
 	protected final Value <FridgeModel.DoorState> doorState = 
 								new Value<> (this, FridgeModel.DoorState.CLOSE , 0);
 

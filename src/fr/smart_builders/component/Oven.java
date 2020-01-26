@@ -220,11 +220,8 @@ extends 				AbstractComponent
 		super.shutdownNow();
 	}
 	
-	
-	
-	
-	
-	private boolean time_to_start () {
+		
+	private boolean 			time_to_start () {
 		if (this.starttime == null)
 			return false;
 		Calendar now = Calendar.getInstance();

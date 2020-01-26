@@ -105,6 +105,10 @@ extends 						AtomicHIOAwithEquations
 	private Duration								delay ; 
 	
 	
+	// see output !!
+	private Double 									sended_event = 0.0 ;
+	
+	
 	
 	
 	
@@ -195,24 +199,28 @@ extends 						AtomicHIOAwithEquations
 		Time t = this.getCurrentStateTime().
 				add(this.getNextTimeAdvance()) ;
 		
-		// need to see how to do it differently 
-		double sended_event = 0;
+		
 		
 		if (this.fridgeInnerTemp == null) {
 			return null ;
 		}
 		
+		// add data to plotter 
+		this.decisions.addData(		this.SERIES, 
+									this.getCurrentStateTime().getSimulatedTime(), 
+									sended_event);
+		
 		if (this.fridgeInnerTemp.v > FridgeModel.MAX_INNER_TEMP) {
 			RunFridge ev = new RunFridge(t, null) ;
 			event.add(ev) ;
 			this.memory.add(ev) ; 
-			sended_event = 1 ;
+			sended_event = 1.0 ;
 			System.err.println("send event : " + ev.getClass().getCanonicalName());
 		}else if (this.fridgeInnerTemp.v < FridgeModel.MIN_INNER_TEMP) {
 			StopFridge ev = new StopFridge (t , null) ;
 			event.add(ev) ;
 			this.memory.add(ev) ;
-			sended_event = 2 ;
+			sended_event = 2.0 ;
 			System.err.println("send event : " + ev.getClass().getCanonicalName());
 		}
 		
