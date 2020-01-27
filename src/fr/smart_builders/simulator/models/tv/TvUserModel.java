@@ -137,6 +137,8 @@ extends 									AtomicES_Model
 	}
 	
 	
+	
+	// i don't understand why we need it here and not in FridgeUserModel and OvenUserModel
 	@Override
 	public SimulationReportI getFinalReport() throws Exception {
 		// TODO Auto-generated method stub

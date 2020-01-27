@@ -16,9 +16,11 @@ import fr.sorbonne_u.components.ports.PortI;
 //----------------------------------------------------------------------------------------
 
 /**
+ * The class <code>Battery</code> represents a battery in the reale life
+ * it has a capacity ( quantity of energy it can store ) and a  power 
+ * ( the maximum power it can deliver )
  * 
  * @authors <p> Yacine Zaouzaou , Kevin Erdogan </p>
- *
  */
 
 @OfferedInterfaces ( offered = { BatteryI.class} )
@@ -29,7 +31,6 @@ extends					AbstractComponent
 	private static double MAX_LEVEL = 100000;
 	private static double MAX_PUISS = 1000;
 	private static double MAX_PUISS_CHARGE = 1000;
-	
 	
 	
 	private double level = 50000;
@@ -71,11 +72,19 @@ extends					AbstractComponent
 		this.tracer.setRelativePosition(3, 1) ;		
 	}
 	
+	/**
+	 * @return level of charge of the battery
+	 */
 	public double level () {
 		return this.level;
 	}
 	
-	public boolean charge (double value ) {
+	/**
+	 * charge the battery when it is not full  
+	 * @param the amount of energy to be added to the battery
+	 * @return not really necessary 
+	 */
+	public boolean charge ( double value ) {
 		if (! this.isFul()) {
 			double toAdd = value % MAX_PUISS_CHARGE;
 			if (this.level + toAdd <= MAX_LEVEL) {
@@ -89,10 +98,18 @@ extends					AbstractComponent
 		return false;
 	}
 	
+	/**
+	 * @return the consumption of the battery (when it is used as a consumer, when charging ) 
+	 */
 	public double consumption () {
 		return this.consume;
 	}
 	
+	/**
+	 * when the system uses the battery to get energy
+	 * @param quatity of energy needed
+	 * @return not really used 
+	 */
 	public boolean discharge (double quatity) {
 		if (! isEmpty()) {
 			double toGive = quatity % MAX_PUISS;

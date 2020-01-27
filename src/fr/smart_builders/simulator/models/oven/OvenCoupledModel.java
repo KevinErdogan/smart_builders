@@ -5,10 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import fr.smart_builders.simulator.models.FridgeUserModel;
 import fr.smart_builders.simulator.models.events.oven.RunOven;
-import fr.smart_builders.simulator.models.oven.OvenModel.OvenReport;
 import fr.sorbonne_u.devs_simulation.architectures.Architecture;
 import fr.sorbonne_u.devs_simulation.architectures.SimulationEngineCreationMode;
 import fr.sorbonne_u.devs_simulation.hioa.architectures.AtomicHIOA_Descriptor;
