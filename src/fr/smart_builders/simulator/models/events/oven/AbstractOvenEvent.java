@@ -7,7 +7,7 @@ import fr.sorbonne_u.devs_simulation.models.time.Time;
 //-------------------------------------------------------------------------------------
 
 /**
- * The abstract class <code>AbstractOvenEvent</p> gives a common type fot
+ * The abstract class <code>AbstractOvenEvent</p> gives a common type for
  * all oven events
  * 
  * @authors <p>Yacine Zaouzaou , Kevin Erdogan</p>
