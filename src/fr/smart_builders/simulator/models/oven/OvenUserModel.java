@@ -2,9 +2,7 @@ package fr.smart_builders.simulator.models.oven;
 
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
-
 import org.apache.commons.math3.random.RandomDataGenerator;
-
 import fr.smart_builders.simulator.models.events.oven.RunOven;
 import fr.smart_builders.simulator.models.events.oven.ScheduleRunOven;
 import fr.smart_builders.simulator.models.events.oven.StopOven;
@@ -26,8 +24,8 @@ import fr.sorbonne_u.devs_simulation.utils.StandardLogger;
  */
 @ModelExternalEvents (exported = {
 							RunOven.class, 
-//							StopOven.class, 
-//							ScheduleRunOven.class
+							StopOven.class, 
+							ScheduleRunOven.class
 							})
 public class 				OvenUserModel 
 extends 					AtomicES_Model
@@ -43,7 +41,7 @@ extends 					AtomicES_Model
 	 */
 	public static final String				URI = "OvenUserModel" ; 
 	
-	private static final long serialVersionUID = 7867397700156277793L;
+	private static final long 				serialVersionUID = 7867397700156277793L;
 	
 	protected double						interDayDelay ; 
 	

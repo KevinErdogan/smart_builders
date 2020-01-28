@@ -106,7 +106,6 @@ extends 									AtomicES_Model
 		super.initialiseState (initialTime) ; 
 		
 		double power = 2.0 * this.meanFastChargePower * this.rg.nextBeta(1.75, 1.75) ; 
-		Duration decal = new Duration (10 , this.simulatedTimeUnit) ; 
 		
 		// schedule first event 
 		this.scheduleEvent(new ChargeBatteryEvent(this.getCurrentStateTime(), power));
@@ -132,7 +131,6 @@ extends 									AtomicES_Model
 		Vector<EventI> events = super.output() ; 
 		assert events.size() == 1 ; 
 		this.nextEvent = events.get(0).getClass() ; 
-		System.err.println("se d"+this.nextEvent.getCanonicalName());
 		return events ; 
 	}
 	

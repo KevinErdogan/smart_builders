@@ -34,8 +34,8 @@ import fr.sorbonne_u.utils.XYPlotter;
 
 @ModelExternalEvents (imported = {
 							RunOven.class , 
-//							StopOven.class , 
-//							ScheduleRunOven.class, 
+							StopOven.class , 
+							ScheduleRunOven.class, 
 })
 public class 				OvenModel 
 extends 					AtomicHIOAwithEquations
@@ -212,19 +212,22 @@ extends 					AtomicHIOAwithEquations
 				this.delay = Duration.INFINITY ;
 				this.computeNewData();
 				this.currentConsumption = OvenModel.MAINTAIN_CONSUMPTION ; 
+				this.currentTemperature = this.wantedTemperature ; 
 				this.computeNewData();
 				
 			} else if (this.stopIn != Duration.INFINITY) { 
 				this.runIn = Duration.INFINITY ; 
 				this.stopIn = Duration.INFINITY ; 
 				this.stop() ;
-				
+				// normally temperature will fall gradually 
+				// but for simplicity we put it to 0 directly 
+				this.currentTemperature = 0.0 ; 
 			}
 		} else {
 			if (this.runIn != Duration.INFINITY) { 
 				this.runIn = Duration.INFINITY ; 
+				// the temperature might grow gradually !! not done for simplicity 
 				this.run() ;
-				
 			}
 		} 
 	}
@@ -239,14 +242,9 @@ extends 					AtomicHIOAwithEquations
 		
 		Event ce = (Event) currentEvents.get(0) ;
 		
-		
 		assert ce instanceof AbstractOvenEvent ; 
 		
-//		this.computeNewData(); 
-		
 		ce.executeOn(this);
-		
-//		this.computeNewData(); 
 		
 		super.userDefinedExternalTransition(elapsedTime);
 		
@@ -298,7 +296,7 @@ extends 					AtomicHIOAwithEquations
 	public void 				run (double d , double t) 
 	{
 		// can't set the temperature to more than the max of the oven
-		assert t <= this.MAX_TEMPERATURE ; 
+		assert t <= OvenModel.MAX_TEMPERATURE ; 
 		this.wantedTemperature = t ;
 		this.computeNewData(); 
 		this.delay = computeMaxPowerTimeRun(t) ; 
@@ -337,7 +335,7 @@ extends 					AtomicHIOAwithEquations
 		assert  this.currentState == OvenModel.State.STOP ;
 		
 		// can't set the temperature to more than the maximum
-		assert temperature <= this.MAX_TEMPERATURE ; 
+		assert temperature <= OvenModel.MAX_TEMPERATURE ; 
 
 		this.wantedTemperature = temperature ;
 		
@@ -353,6 +351,11 @@ extends 					AtomicHIOAwithEquations
 		this.powerPlotter.addData(
 				SERIES, this.getCurrentStateTime().getSimulatedTime(), 
 				this.currentConsumption) ;
+	}
+	
+	public double 				innerTemperature ()
+	{
+		return this.currentTemperature ;
 	}
 	
 	

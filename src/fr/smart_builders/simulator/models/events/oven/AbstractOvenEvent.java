@@ -17,9 +17,7 @@ public class 					AbstractOvenEvent
 extends 						ES_Event
 {
 
-	/**
-	 *  generated
-	 */
+	/** generated */
 	private static final long serialVersionUID = -7936661509911805105L;
 
 	

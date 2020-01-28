@@ -31,7 +31,6 @@ extends 							AbstractOvenEvent
 		public final double 		temperature ;
 		
 		public CountDown (double value , double t) {
-			super () ; 
 			this.value = value ; 
 			this.temperature = t ; 
 		}

@@ -28,7 +28,7 @@ import fr.sorbonne_u.devs_simulation.utils.StandardLogger;
 								OpenDoorFridge.class,
 								CloseDoorFridge.class
 					})
-public class 							FridgeUserModel 
+public class 							FridgeUserModel   
 extends 								AtomicES_Model
 {
 	
