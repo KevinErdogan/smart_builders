@@ -111,6 +111,8 @@ implements 									ConsumerI
 	
 	private XYPlotter						levelPlotter ; 
 	
+	private boolean 						triggedSendConsumption ;
+	
 
 	
 	
@@ -157,6 +159,7 @@ implements 									ConsumerI
 		// suppose that at the beginning the battery is half charged
 		this.level = 50000 ; 
 		this.evolutionLevel = 0.0 ; 
+		this.triggedSendConsumption = false ;
 		super.initialiseVariables(startTime);
 	}
 	
@@ -192,8 +195,19 @@ implements 									ConsumerI
 	
 	@Override
 	public Vector<EventI> 					output() {
-		//		NO OUT PUT EVENT
-		//		when we introduce the counter, it will send it's level as an event !
+		
+		if (this.triggedSendConsumption) {
+			Vector<EventI> events = new Vector<EventI>() ; 
+			EventI e; 
+			double consumption = 0.0 ; 
+			if (this.currentState == State.CHARGING)
+				consumption = this.evolutionLevel ; 
+			e = new ConsumptionResponseEvent(this.getCurrentStateTime(), BatteryModel.URI, consumption) ;
+			events.add(e) ; 
+			this.triggedSendConsumption = false ; 
+			return events ;
+		}
+		
 		return null;
 	}
 
@@ -201,7 +215,9 @@ implements 									ConsumerI
 
 	@Override
 	public Duration 						timeAdvance() {
-		// TODO 
+		if (this.triggedSendConsumption) {
+			return Duration.zero(this.getSimulatedTimeUnit()) ; 
+		}
 		return new Duration (1 , this.getSimulatedTimeUnit()) ; 
 	}
 	
@@ -213,10 +229,7 @@ implements 									ConsumerI
 
 	@Override
 	public void 						giveConsumption() {
-		double consumption = 0.0 ; 
-		if (this.currentState == State.CHARGING)
-			consumption = this.evolutionLevel ; 
-		new ConsumptionResponseEvent(this.getCurrentStateTime(), BatteryModel.URI, consumption) ;
+		this.triggedSendConsumption = true ; 
 	}
 
 	

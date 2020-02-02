@@ -108,6 +108,8 @@ implements 								ConsumerI
 	/* power plotter */
 	private XYPlotter 					powerPlotter ; 
 	
+	private boolean 					triggedSendConsumption ; 
+	
 	
 	
 	//------------------------------------------------------------------------------------------
@@ -153,20 +155,30 @@ implements 								ConsumerI
 	@Override
 	public void 						initialiseVariables (Time startTime) 
 	{
+		this.triggedSendConsumption = false ; 
 		super.initialiseVariables(startTime);
 	}
 	
 	
 	@Override
 	public Vector<EventI> output() {
-		// TODO Auto-generated method stub
-		return null;
+		Vector<EventI> event = new Vector<EventI>() ; 
+		event.add(new ConsumptionResponseEvent(
+					this.getCurrentStateTime(), 
+					TvModel.URI, 
+					this.getCurrentConsumption())) ; 
+		
+		this.triggedSendConsumption = false ;
+		
+		return event;
 	}
 
 
 
 	@Override
 	public Duration timeAdvance() {
+		if (this.triggedSendConsumption)
+			return Duration.zero(this.getSimulatedTimeUnit()) ; 
 		return Duration.INFINITY ;
 	}
 	
@@ -202,10 +214,7 @@ implements 								ConsumerI
 	
 	@Override
 	public void giveConsumption() {
-		new ConsumptionResponseEvent(
-					this.getCurrentStateTime(), 
-					TvModel.URI, 
-					this.getCurrentConsumption()) ; 
+		this.triggedSendConsumption = true  ; 
 	}
 
 	//------------------------------------------------------------------------------------------

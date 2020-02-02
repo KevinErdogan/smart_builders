@@ -251,6 +251,8 @@ implements 			ConsumerI
 	
 	protected XYPlotter 			temperaturePlotter ;
 	
+	private boolean 				triggedSendConsumption ;
+	
 	
 
 	
@@ -285,25 +287,29 @@ implements 			ConsumerI
 	public void 					initialiseVariables (Time startTime)
 	{
 		this.currentPower.v = 0.0 ; 
-		
+		this.triggedSendConsumption = false ; 
 	}
 	
 	
 	@Override
 	public Vector<EventI> output() {
-		// fridge model doesn't output any event it just receives
-		//TODO !!
-		return null;
+		
+		Vector<EventI> event = new Vector<EventI>() ; 
+		event.add(		new ConsumptionResponseEvent (
+							this.getCurrentStateTime() , 
+							FridgeModel.URI , 
+							this.getConsumption()) ) ;
+		this.triggedSendConsumption = false ;
+		return event;
 	}
 
 	
-	// JUST A TRY
 	@Override
 	public Duration 			timeAdvance() { 
-		// TODO need to understand more about it
 		
-		
-		// what to return ? 
+		if (this.triggedSendConsumption) {
+			return Duration.zero(this.getSimulatedTimeUnit()) ;
+		}
 		return Duration.INFINITY ; 
 	}
 	
@@ -412,11 +418,7 @@ implements 			ConsumerI
 	@Override
 	public void 					giveConsumption() 
 	{
-		System.err.println("trigged fridgeModel");
-		new ConsumptionResponseEvent (
-							this.getCurrentStateTime() , 
-							FridgeModel.URI , 
-							this.getConsumption()) ;
+		this.triggedSendConsumption = true ; 
 	}
 	
 	//-----------------------------------------------------------------------

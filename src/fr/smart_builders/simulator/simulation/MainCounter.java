@@ -577,7 +577,7 @@ public class 							MainCounter
 			
 			SimulationEngine.SIMULATION_STEP_SLEEP_TIME = 0L ;
 			long start = System.currentTimeMillis() ;
-			se.doStandAloneSimulation(0.0, 50000.0) ;
+			se.doStandAloneSimulation(0.0, 500.0) ;
 			long end = System.currentTimeMillis() ;
 			System.out.println(se.getFinalReport()) ;
 			System.out.println("Simulation ends. " + (end - start)) ;

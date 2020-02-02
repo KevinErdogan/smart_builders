@@ -12,6 +12,7 @@ import fr.sorbonne_u.devs_simulation.models.annotations.ModelExternalEvents;
 import fr.sorbonne_u.devs_simulation.models.events.Event;
 import fr.sorbonne_u.devs_simulation.models.events.EventI;
 import fr.sorbonne_u.devs_simulation.models.time.Duration;
+import fr.sorbonne_u.devs_simulation.models.time.Time;
 import fr.sorbonne_u.devs_simulation.simulators.interfaces.SimulatorI;
 
 /**
@@ -30,7 +31,7 @@ implements 						ConsumerI
 	 */
 	private static final long serialVersionUID = -2666342110874639906L;
 	public static final String URI = "CounterUModel" ; 
-	private Vector<EventI> events = new Vector<EventI>() ; 
+	private boolean triggedReadValue = false ;
 
 	public CounterUModel(String uri, TimeUnit simulatedTimeUnit, SimulatorI simulationEngine) throws Exception {
 		super(uri, simulatedTimeUnit, simulationEngine);
@@ -39,17 +40,25 @@ implements 						ConsumerI
 
 	@Override
 	public Vector<EventI> output() {
-		System.out.println("output Umodel");
-
-		Vector<EventI> events = this.events;
-		this.events.clear();
-		
-		return events;
+		if (this.triggedReadValue) {
+			System.out.println("reading is beeing sent");
+			Duration d = new Duration(10, this.getSimulatedTimeUnit());
+			Time t = this.getCurrentStateTime().add(d) ;
+			EventI e = new ConsumptionResponseEvent(t, CounterUModel.URI, 2.0);
+			Vector<EventI> ret = new Vector<EventI> () ;
+			ret.add(e) ;
+			this.triggedReadValue = false ; 
+			return ret ;
+		}else {
+			return null ; 
+		}
 	}
-
+	
+	
+	
 	@Override
 	public Duration timeAdvance() {
-		if (this.events.size() > 0) {
+		if (this.triggedReadValue) {
 			return Duration.zero(this.getSimulatedTimeUnit()) ; 
 		}
 		return Duration.INFINITY ;
@@ -57,6 +66,8 @@ implements 						ConsumerI
 	
 	@Override
 	public void userDefinedExternalTransition (Duration e) {
+		super.userDefinedExternalTransition(e) ;
+		
 		Vector<EventI> currentEvents = this.getStoredEventAndReset() ; 
 		
 		Event ce = (Event) currentEvents.get(0) ; 
@@ -69,11 +80,8 @@ implements 						ConsumerI
 
 	@Override
 	public void giveConsumption() {
-		System.out.println("received");
-		this.events.add(
-		new ConsumptionResponseEvent(
-				this.getCurrentStateTime().add(
-						new Duration(1, getSimulatedTimeUnit())), "haha", 2.0)) ; 
+		System.err.println("give consumption");
+		this.triggedReadValue = true ; 
 	}
 	
 	@Override

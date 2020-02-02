@@ -128,6 +128,8 @@ implements 					ConsumerI
 	private double 				currentConsumption ;
 	
 	protected XYPlotter			powerPlotter ; 
+	
+	private boolean 			triggedSendConsumption ; 
 
 	
 	
@@ -180,18 +182,32 @@ implements 					ConsumerI
 		this.currentConsumption = 0 ; 
 		// need a function to compute the temperature during the simulation 
 		this.currentTemperature = 0 ; 
+		this.triggedSendConsumption = false ; 
 	}
 	
 	
 	@Override
 	public Vector<EventI> output() {
-		// TODO Auto-generated method stub
-		// no output !
-		return null;
+	if (this.triggedSendConsumption)
+	{
+		Vector<EventI> event = new Vector<EventI>() ; 
+		EventI e ;
+		e = new ConsumptionResponseEvent(
+				this.getCurrentStateTime(), 
+				OvenModel.URI, 
+				this.currentConsumption) ;
+		event.add(e) ; 
+		this.triggedSendConsumption = false ; 
+		return event;
+	}
+		return null ; 
 	}
 
 	@Override
 	public Duration timeAdvance() {
+		if (this.triggedSendConsumption) {
+			return Duration.zero(this.getSimulatedTimeUnit()) ; 
+		}
 		if (this.currentState == OvenModel.State.RUN) {
 			if (this.delay.lessThan(this.stopIn)) {
 				return this.delay ;
@@ -279,10 +295,7 @@ implements 					ConsumerI
 	
 	@Override
 	public void giveConsumption() {
-		new ConsumptionResponseEvent(
-							this.getCurrentStateTime(), 
-							OvenModel.URI, 
-							this.currentConsumption) ; 
+		this.triggedSendConsumption = true ; 
 	}
 	
 	
