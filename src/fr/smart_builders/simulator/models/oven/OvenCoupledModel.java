@@ -91,9 +91,6 @@ extends 							CoupledModel
 	throws Exception 
 	{
 		Map<String , AbstractAtomicModelDescriptor> amd = new HashMap<> () ; 
-		
-		System.err.println("________________________1________________________________");
-		
 		amd.put(	OvenModel.URI, AtomicHIOA_Descriptor.create(
 											OvenModel.class, 
 											OvenModel.URI, 
@@ -101,9 +98,6 @@ extends 							CoupledModel
 											null, 
 											SimulationEngineCreationMode.ATOMIC_ENGINE)
 											) ;
-		
-		System.err.println("________________________2________________________________");
-		
 		amd.put(	OvenUserModel.URI, AtomicModelDescriptor.create(
 											OvenUserModel.class, 
 											OvenUserModel.URI, 
@@ -111,8 +105,6 @@ extends 							CoupledModel
 											null, 
 											SimulationEngineCreationMode.ATOMIC_ENGINE)
 					); 
-		
-		System.err.println("________________________3________________________________");
 		// no bindings because their is no exported or imported variables
 //		Map<VariableSource , VariableSink []> bindings = new HashMap<>() ;
 		
@@ -136,9 +128,6 @@ extends 							CoupledModel
 		} ;
 		
 		connections.put(f1, t1) ; 
-		
-		System.err.println("________________________4________________________________");
-		
 		cmd.put (			OvenCoupledModel.URI , 
 							new CoupledHIOA_Descriptor(
 									OvenCoupledModel.class, 
@@ -152,15 +141,10 @@ extends 							CoupledModel
 									null, 
 									null, 
 									null));
-		
-		System.err.println("________________________5________________________________");
-
 		return new Architecture(	OvenCoupledModel.URI , 
 									amd , 
 									cmd , 
 									TimeUnit.SECONDS) ; 
-		
-		
 	}
 
 	

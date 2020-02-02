@@ -68,7 +68,6 @@ extends 									CoupledModel
 	public SimulationReportI				getFinalReport () 
 	throws 		Exception
 	{
-		System.err.println("mmmmmeeeeerrrrrdddddeeeee");
 		StandardCoupledModelReport ret = 
 				new StandardCoupledModelReport (this.getURI()) ; 
 		for (int i = 0 ; i < this.submodels.length ; i ++ ) {

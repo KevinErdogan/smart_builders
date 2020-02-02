@@ -2,11 +2,15 @@ package fr.smart_builders.simulator.models.tv;
 
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
+
+import fr.smart_builders.simulator.models.counter.event.ConsumeEvent;
+import fr.smart_builders.simulator.models.counter.event.ConsumptionResponseEvent;
 import fr.smart_builders.simulator.models.events.tv.AbstractTvEvent;
 import fr.smart_builders.simulator.models.events.tv.SetEcoModeTv;
 import fr.smart_builders.simulator.models.events.tv.SetNormalModeTv;
 import fr.smart_builders.simulator.models.events.tv.SwitchOffTv;
 import fr.smart_builders.simulator.models.events.tv.SwitchOnTv;
+import fr.smart_builders.simulator.simulation.ConsumerI;
 import fr.sorbonne_u.devs_simulation.hioa.models.AtomicHIOAwithEquations;
 import fr.sorbonne_u.devs_simulation.interfaces.SimulationReportI;
 import fr.sorbonne_u.devs_simulation.models.annotations.ModelExternalEvents;
@@ -28,10 +32,13 @@ import fr.sorbonne_u.utils.XYPlotter;
 							SwitchOnTv.class , 
 							SwitchOffTv.class , 
 							SetEcoModeTv.class , 
-							SetNormalModeTv.class
+							SetNormalModeTv.class,
+							ConsumeEvent.class},
+						exported = {ConsumptionResponseEvent.class
 })
 public class 							TvModel 
 extends 								AtomicHIOAwithEquations
+implements 								ConsumerI
 {
 
 	//------------------------------------------------------------------------------------------
@@ -178,7 +185,7 @@ extends 								AtomicHIOAwithEquations
 		assert currentEvents != null && currentEvents.size() == 1 ;
 		
 		Event ce = (Event) currentEvents.get(0) ; 
-		assert ce instanceof AbstractTvEvent ; 
+		assert ce instanceof AbstractTvEvent || ce instanceof ConsumeEvent; 
 		
 		this.computeAddNewDate() ; 
 		ce.executeOn(this);
@@ -191,6 +198,14 @@ extends 								AtomicHIOAwithEquations
 	public SimulationReportI 		getFinalReport () throws Exception 
 	{
 		return new TvReport (this.getURI()) ; 
+	}
+	
+	@Override
+	public void giveConsumption() {
+		new ConsumptionResponseEvent(
+					this.getCurrentStateTime(), 
+					TvModel.URI, 
+					this.getCurrentConsumption()) ; 
 	}
 
 	//------------------------------------------------------------------------------------------

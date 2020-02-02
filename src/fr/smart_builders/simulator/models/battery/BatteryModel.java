@@ -3,10 +3,14 @@ package fr.smart_builders.simulator.models.battery;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
+import fr.smart_builders.simulator.models.counter.event.AbstractCounterEvent;
+import fr.smart_builders.simulator.models.counter.event.ConsumeEvent;
+import fr.smart_builders.simulator.models.counter.event.ConsumptionResponseEvent;
 import fr.smart_builders.simulator.models.events.battery.AbstractBatteryEvent;
 import fr.smart_builders.simulator.models.events.battery.ChargeBatteryEvent;
 import fr.smart_builders.simulator.models.events.battery.DischargeBatteryEvent;
 import fr.smart_builders.simulator.models.events.battery.ReadBatteryLevelEvent;
+import fr.smart_builders.simulator.simulation.ConsumerI;
 import fr.sorbonne_u.devs_simulation.hioa.models.AtomicHIOAwithEquations;
 import fr.sorbonne_u.devs_simulation.interfaces.SimulationReportI;
 import fr.sorbonne_u.devs_simulation.models.annotations.ModelExternalEvents;
@@ -30,10 +34,13 @@ import fr.sorbonne_u.utils.XYPlotter;
 @ModelExternalEvents (imported = {
 							ChargeBatteryEvent.class, 
 							DischargeBatteryEvent.class, 
-							ReadBatteryLevelEvent.class
-						})
+							ReadBatteryLevelEvent.class, 
+							ConsumeEvent.class
+						},
+						exported = {ConsumptionResponseEvent.class})
 public class 								BatteryModel 
 extends 									AtomicHIOAwithEquations
+implements 									ConsumerI
 {
 	
 
@@ -75,10 +82,10 @@ extends 									AtomicHIOAwithEquations
 	private static final long 				serialVersionUID = 6418167324533123835L;
 	
 	/** factor of conversion from WATT to Wh
-	 * 1 Wh = 3600 WATT ( from the definition of Wh  */
+	 * 1 Wh = 3600 WATT ( from the definition of Wh ) */
 	// j'ai besoin d'exagerer les choses par ce que les temps que je prend ne sont 
 	// pas realise donc je change la valeur de 3600 à 60
-	private static final double 			WATT2WH_CONVERSION_FACTOR = 3600 ; 
+	private static final double 			WATT2WH_CONVERSION_FACTOR = 360 ; 
 	
 	/** the capacity of the battery in WATT-HOUR */
 	private static final double 			CAPACITY = 100000 ;
@@ -140,7 +147,6 @@ extends 									AtomicHIOAwithEquations
 		this.currentState = State.OUT ; 
 		this.levelPlotter.initialise() ; 
 		this.levelPlotter.showPlotter() ;
-		System.err.println("CALL INIT BAT end");
 		super.initialiseState(initialTime);
 		
 	}
@@ -177,7 +183,7 @@ extends 									AtomicHIOAwithEquations
 		Event ce = (Event) currentEvents.get(0) ;
 		
 		
-		assert ce instanceof AbstractBatteryEvent ; 
+		assert ce instanceof AbstractBatteryEvent || ce instanceof AbstractCounterEvent ; 
 		
 		ce.executeOn(this);
 		
@@ -204,6 +210,15 @@ extends 									AtomicHIOAwithEquations
 	{
 		return new BatteryReport (this.getURI()) ; 
 	}
+
+	@Override
+	public void 						giveConsumption() {
+		double consumption = 0.0 ; 
+		if (this.currentState == State.CHARGING)
+			consumption = this.evolutionLevel ; 
+		new ConsumptionResponseEvent(this.getCurrentStateTime(), BatteryModel.URI, consumption) ;
+	}
+
 	
 	//------------------------------------------------------------------------------------
 	// specific methods
@@ -299,15 +314,9 @@ extends 									AtomicHIOAwithEquations
 								this.getCurrentStateTime().getSimulatedTime() , 
 								this.level);
 	}
+
 }
 //------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
 
 
 

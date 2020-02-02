@@ -130,14 +130,14 @@ extends 								AtomicES_Model
 	
 	@Override
 	public Duration 				timeAdvance () {
-		System.out.println("FridgeUserModel::timeAdvance") ;
+
 		return super.timeAdvance() ;
 	}
 	
 	@Override
 	public Vector<EventI> 			output () 
 	{
-		System.out.println("FridgeUserModel::output");
+
 		
 		assert ! this.eventList.isEmpty() ; 
 		
@@ -159,7 +159,7 @@ extends 								AtomicES_Model
 	public void 					userDefinedInternalTransition (
 							Duration elapsedTime )
 	{
-		System.out.println("--\nFridgeUserMode::userDefinedInternalTransition\n--");
+
 		Duration d ; 
 		Time t ;
 		if (this.nextEvent.equals(OpenDoorFridge.class)) {
@@ -168,11 +168,6 @@ extends 								AtomicES_Model
 					2.0 * this.openDuration * this.rg.nextBeta(1.75 ,  1.75), 
 					this.getSimulatedTimeUnit()) ; 
 			t = this.getCurrentStateTime().add(d) ; 
-			System.err.println("------------\n"
-					+ "\n"
-					+ "sending closedoor"
-					+ "\n"
-					+ "\n--------------");
 			this.scheduleEvent(new CloseDoorFridge(t));
 		}else 
 		if (this.nextEvent.equals(CloseDoorFridge.class)) {

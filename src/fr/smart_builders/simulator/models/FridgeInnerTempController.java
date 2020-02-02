@@ -101,6 +101,8 @@ extends 						AtomicHIOAwithEquations
 	/** URI of the model  */
 	public static final String 						URI = "FridgeTempControl" ;
 	
+	public static final String 					SERIES = "FridgeTempControler" ; 
+	
 	
 	private Duration								delay ; 
 	
@@ -131,7 +133,7 @@ extends 						AtomicHIOAwithEquations
 	
 	protected Vector<ES_Event> 						memory ;
 	
-	private String 									SERIES ; 
+	
 
 	
 	
@@ -146,7 +148,6 @@ extends 						AtomicHIOAwithEquations
 	{
 		super(uri, simulatedTimeUnit, simulationEngine) ;
 		this.memory = new Vector<ES_Event>() ; 
-		this.SERIES = "standard" ;
 	}
 	
 	//----------------------------------------------------------------
@@ -174,12 +175,12 @@ extends 						AtomicHIOAwithEquations
 	public void 			initialiseState(
 					Time initialTime) 
 	{
+		Duration d = new Duration(1 , TimeUnit.SECONDS) ;
+		this.delay = d ;
 		this.memory.clear() ;
 		if (this.decisions != null) {
 			this.decisions.initialise();
 			this.decisions.showPlotter();
-			Duration d = new Duration(1 , TimeUnit.SECONDS) ;
-			this.delay = d ;
 		}
 		super.initialiseState(initialTime);
 	}
@@ -188,6 +189,7 @@ extends 						AtomicHIOAwithEquations
 	protected void 			initialiseVariables (
 						Time startTime)
 	{
+		super.initialiseVariables(startTime);
 		this.logMessage("FridgeInnerTempController initializevariables");
 	}
 
@@ -206,7 +208,7 @@ extends 						AtomicHIOAwithEquations
 		}
 		
 		// add data to plotter 
-		this.decisions.addData(		this.SERIES, 
+		this.decisions.addData(		FridgeInnerTempController.SERIES, 
 									this.getCurrentStateTime().getSimulatedTime(), 
 									sended_event);
 		
@@ -215,13 +217,11 @@ extends 						AtomicHIOAwithEquations
 			event.add(ev) ;
 			this.memory.add(ev) ; 
 			sended_event = 1.0 ;
-			System.err.println("send event : " + ev.getClass().getCanonicalName());
 		}else if (this.fridgeInnerTemp.v < FridgeModel.MIN_INNER_TEMP) {
 			StopFridge ev = new StopFridge (t , null) ;
 			event.add(ev) ;
 			this.memory.add(ev) ;
 			sended_event = 2.0 ;
-			System.err.println("send event : " + ev.getClass().getCanonicalName());
 		}
 		
 		if (event.size() == 0 ) {
@@ -229,7 +229,7 @@ extends 						AtomicHIOAwithEquations
 		}
 		
 		// add data to plotter 
-		this.decisions.addData(		this.SERIES, 
+		this.decisions.addData(		SERIES, 
 									this.getCurrentStateTime().getSimulatedTime(), 
 									sended_event);
 		
@@ -238,9 +238,6 @@ extends 						AtomicHIOAwithEquations
 						event.get(0).getClass().getCanonicalName());
 		return event;
 	}
-
-	
-	
 
 	
 //	need to understand more about it
@@ -302,7 +299,7 @@ extends 						AtomicHIOAwithEquations
 	}
 	
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
 
 
 

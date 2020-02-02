@@ -3,10 +3,13 @@ package fr.smart_builders.simulator.models.oven;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
+import fr.smart_builders.simulator.models.counter.event.ConsumeEvent;
+import fr.smart_builders.simulator.models.counter.event.ConsumptionResponseEvent;
 import fr.smart_builders.simulator.models.events.oven.AbstractOvenEvent;
 import fr.smart_builders.simulator.models.events.oven.RunOven;
 import fr.smart_builders.simulator.models.events.oven.ScheduleRunOven;
 import fr.smart_builders.simulator.models.events.oven.StopOven;
+import fr.smart_builders.simulator.simulation.ConsumerI;
 import fr.sorbonne_u.devs_simulation.hioa.models.AtomicHIOAwithEquations;
 import fr.sorbonne_u.devs_simulation.interfaces.SimulationReportI;
 import fr.sorbonne_u.devs_simulation.models.annotations.ModelExternalEvents;
@@ -35,10 +38,12 @@ import fr.sorbonne_u.utils.XYPlotter;
 @ModelExternalEvents (imported = {
 							RunOven.class , 
 							StopOven.class , 
-							ScheduleRunOven.class, 
-})
+							ScheduleRunOven.class,
+							ConsumeEvent.class} , 
+						exported = {ConsumptionResponseEvent.class})
 public class 				OvenModel 
 extends 					AtomicHIOAwithEquations
+implements 					ConsumerI
 {
 	
 	//------------------------------------------------------------------------
@@ -242,7 +247,7 @@ extends 					AtomicHIOAwithEquations
 		
 		Event ce = (Event) currentEvents.get(0) ;
 		
-		assert ce instanceof AbstractOvenEvent ; 
+		assert ce instanceof AbstractOvenEvent || ce instanceof ConsumeEvent ; 
 		
 		ce.executeOn(this);
 		
@@ -271,6 +276,16 @@ extends 					AtomicHIOAwithEquations
 	{
 		return new OvenReport(this.getURI()) ; 
 	}
+	
+	@Override
+	public void giveConsumption() {
+		new ConsumptionResponseEvent(
+							this.getCurrentStateTime(), 
+							OvenModel.URI, 
+							this.currentConsumption) ; 
+	}
+	
+	
 	
 	//------------------------------------------------------------------------
 	//	specific methods
@@ -357,19 +372,10 @@ extends 					AtomicHIOAwithEquations
 	{
 		return this.currentTemperature ;
 	}
-	
-	
-	
-	
 
-	
-
-
-	
-	
 	
 }
-//----------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
 
 
 

@@ -3,6 +3,9 @@ package fr.smart_builders.simulator.models;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
+import fr.smart_builders.simulator.models.counter.event.AbstractCounterEvent;
+import fr.smart_builders.simulator.models.counter.event.ConsumeEvent;
+import fr.smart_builders.simulator.models.counter.event.ConsumptionResponseEvent;
 import fr.smart_builders.simulator.models.events.AbstractFridgeEvent;
 import fr.smart_builders.simulator.models.events.CloseDoorFridge;
 import fr.smart_builders.simulator.models.events.OpenDoorFridge;
@@ -11,6 +14,7 @@ import fr.smart_builders.simulator.models.events.StopFridge;
 import fr.smart_builders.simulator.models.events.SwitchEcoFridge;
 import fr.smart_builders.simulator.models.events.SwitchNormalFridge;
 import fr.smart_builders.simulator.models.events.SwitchOffFridge;
+import fr.smart_builders.simulator.simulation.ConsumerI;
 import fr.sorbonne_u.devs_simulation.hioa.annotations.ExportedVariable;
 import fr.sorbonne_u.devs_simulation.hioa.models.AtomicHIOAwithEquations;
 import fr.sorbonne_u.devs_simulation.hioa.models.vars.Value;
@@ -51,9 +55,12 @@ import fr.sorbonne_u.utils.XYPlotter;
 							SwitchNormalFridge.class,
 							SwitchOffFridge.class, 
 							OpenDoorFridge.class, 
-							CloseDoorFridge.class})
+							CloseDoorFridge.class,
+							ConsumeEvent.class},
+						exported = {ConsumptionResponseEvent.class})
 public class 		FridgeModel 
 extends 			AtomicHIOAwithEquations
+implements 			ConsumerI
 {
 	
 	
@@ -285,6 +292,7 @@ extends 			AtomicHIOAwithEquations
 	@Override
 	public Vector<EventI> output() {
 		// fridge model doesn't output any event it just receives
+		//TODO !!
 		return null;
 	}
 
@@ -306,7 +314,6 @@ extends 			AtomicHIOAwithEquations
 	public void 					userDefinedInternalTransition 
 					(Duration elapsedTime)
 	{
-		System.err.println("run internal transition for fridgeModel");
 		
 		// TODO need to understand to do it
 		// i think here we have to put all inner behaviors 
@@ -341,7 +348,7 @@ extends 			AtomicHIOAwithEquations
 		assert currentEvents != null && currentEvents.size() == 1 ; 
 		
 		Event ce = (Event) currentEvents.get(0) ;
-		assert ce instanceof AbstractFridgeEvent ;
+		assert ce instanceof AbstractFridgeEvent || ce instanceof AbstractCounterEvent ;
 		
 		if (this.hasDebugLevel(2)) {
 			this.logMessage("FridgeModel::userDefinedExternalTransition 2 "
@@ -402,6 +409,16 @@ extends 			AtomicHIOAwithEquations
 		return new FridgeReport (this.getURI()) ; 
 	}
 	
+	@Override
+	public void 					giveConsumption() 
+	{
+		System.err.println("trigged fridgeModel");
+		new ConsumptionResponseEvent (
+							this.getCurrentStateTime() , 
+							FridgeModel.URI , 
+							this.getConsumption()) ;
+	}
+	
 	//-----------------------------------------------------------------------
 	//	other methods
 	//-----------------------------------------------------------------------
@@ -424,7 +441,6 @@ extends 			AtomicHIOAwithEquations
 	
 	private void 						computeInnerTempEvolution () 
 	{
-		System.err.println("innertemp evolution");
 		
 		State runState = this.getState() ; 
 		Mode modeState = this.getMode() ; 

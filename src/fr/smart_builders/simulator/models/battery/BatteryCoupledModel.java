@@ -134,8 +134,6 @@ extends 									CoupledModel
 		}	;
 		connections.put(f2, t2) ; 
 		
-		System.err.println(sm.size());
-		
 		
 		assert	sm != null && sm.size() > 1 ;
 		

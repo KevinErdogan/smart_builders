@@ -48,7 +48,7 @@ extends 					CoupledModel
 	/**
 	 * generated
 	 */
-	private static final long serialVersionUID = -7056095415196857954L;
+	private static final long 			serialVersionUID = -7056095415196857954L;
 
 	//-----------------------------------------------------------------
 	//	Constants and variables
